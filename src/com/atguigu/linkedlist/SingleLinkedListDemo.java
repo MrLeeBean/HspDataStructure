@@ -203,11 +203,11 @@ class SingleLinkedList {
 		while(true) {
 			if(temp.next == null) {//说明temp已经在链表的最后
 				break; //
-			} 
+			}
 			if(temp.next.no > heroNode.no) { //位置找到，就在temp的后面插入
 				break;
 			} else if (temp.next.no == heroNode.no) {//说明希望添加的heroNode的编号已然存在
-				
+
 				flag = true; //说明编号存在
 				break;
 			}
