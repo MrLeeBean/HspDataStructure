@@ -18,7 +18,9 @@ public class SingleLinkedList {
     }
 
     /**
-     * 第二种方式在添加英雄时，根据排名将英雄插入到指定位置
+     * 按照顺序添加节点数据到链表
+     * <p>
+     * 根据排名将英雄插入到指定位置
      * 如果有这个排名，则添加失败，并给出提示
      *
      * @param heroNode
@@ -55,43 +57,45 @@ public class SingleLinkedList {
     }
 
 
-/**
- * 单链表节点的修改
- * 修改节点的信息, 根据no编号来修改，但是no编号不能改.
- * @param newHeroNode
- */
-public void update(HeroNode newHeroNode) {
-    //判断链表是否为空
-    if (head.next == null) {
-        System.out.println("链表不能为空");
-        return;
-    }
-    HeroNode temp = head.next;  //定义辅助节点
-    boolean hasFind = false;    //是否找到要修改的节点
-
-    //开始查找位置.
-
-    while (true) {
-        if (temp == null) {//说明temp已经在链表的最后。结束循环。
-            break;
+    /**
+     * 单链表节点的修改
+     * <p>
+     * 修改节点的信息, 根据no编号来修改，但是no编号不能改.
+     *
+     * @param newHeroNode
+     */
+    public void update(HeroNode newHeroNode) {
+        //判断链表是否为空
+        if (head.next == null) {
+            System.out.println("链表不能为空");
+            return;
         }
-        if (temp.no == newHeroNode.no) {//节点找到。结束循环。
-            hasFind = true;
-            break;
+        HeroNode temp = head.next;  //定义辅助节点
+        boolean hasFind = false;    //是否找到要修改的节点
+
+        //开始查找位置.
+
+        while (true) {
+            if (temp == null) {//说明temp已经在链表的最后。结束循环。
+                break;
+            }
+            if (temp.no == newHeroNode.no) {//节点找到。结束循环。
+                hasFind = true;
+                break;
+            }
+            temp = temp.next;//后移，继续遍历当前链表寻找位置
         }
-        temp = temp.next;//后移，继续遍历当前链表寻找位置
+
+        //根据hasFind判断是否找到要修改的节点
+
+        if (hasFind) {
+            temp.name = newHeroNode.name;
+            temp.nickName = newHeroNode.nickName;
+        } else {
+            System.out.printf("准备修改的英雄编号%d不存在\n", newHeroNode.no);
+        }
+
     }
-
-    //根据hasFind判断是否找到要修改的节点
-
-    if (hasFind) {
-        temp.name = newHeroNode.name;
-        temp.nickName = newHeroNode.nickName;
-    } else {
-        System.out.printf("准备修改的英雄编号%d不存在\n", newHeroNode.no);
-    }
-
-}
 
     /**
      * 遍历链表中的节点数据
