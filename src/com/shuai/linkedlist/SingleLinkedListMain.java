@@ -14,15 +14,15 @@ public class SingleLinkedListMain {
         list.addByOrder(hero1);
         list.addByOrder(hero3);
         list.addByOrder(hero4);
-
         list.list();
 
-        System.out.println("----修改后----");
-        list.update(new HeroNode(2, "BBBBBBB", "bbbbbbb"));
+        list.del(1);
+        list.del(2);
+        list.del(3);
+        list.del(4);
+
+        System.out.println("----删除后----");
         list.list();
 
-        System.out.println("----修改后----");
-        list.update(new HeroNode(2000, "QQQQQQ", "qqqqqq"));
-        list.list();
     }
 }

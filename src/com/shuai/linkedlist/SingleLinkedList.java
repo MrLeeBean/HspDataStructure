@@ -67,7 +67,7 @@ public class SingleLinkedList {
     public void update(HeroNode newHeroNode) {
         //判断链表是否为空
         if (head.next == null) {
-            System.out.println("链表不能为空");
+            System.out.println("链表为空");
             return;
         }
         HeroNode temp = head.next;  //定义辅助节点
@@ -97,13 +97,39 @@ public class SingleLinkedList {
 
     }
 
+
+    /**
+     * 删除链表中的指定节点
+     *
+     * @param no
+     */
+    public void del(int no) {
+        HeroNode temp = head;
+        boolean hasFind = false;// 标志是否找到待删除节点
+        while (true) {
+            if (temp.next == null) {//说明temp已经在链表的最后。结束循环。未找到。
+                break;
+            }
+            if (temp.next.no == no) {//找到的待删除节点的前一个节点temp。结束循环。已找到。
+                hasFind = true;
+                break;
+            }
+            temp = temp.next;//后移，继续遍历当前链表寻找位置
+        }
+        if (hasFind) {//找到，可以删除
+            temp.next = temp.next.next;
+        } else {//未找到。提示。
+            System.out.printf("没有找到编号为%d的节点英雄\n", no);
+        }
+    }
+
     /**
      * 遍历链表中的节点数据
      */
     public void list() {
         //判断链表是否为空
         if (head.next == null) {
-            System.out.println("链表不能为空");
+            System.out.println("链表为空");
             return;
         }
         //创建辅助节点，移动向头结点的下一节点
