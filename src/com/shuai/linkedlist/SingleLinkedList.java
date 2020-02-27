@@ -4,6 +4,10 @@ public class SingleLinkedList {
 
     private HeroNode head = new HeroNode(0, "", "");
 
+    public HeroNode getHead() {
+        return head;
+    }
+
     /**
      * 添加节点数据到链表
      *

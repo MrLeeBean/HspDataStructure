@@ -20,6 +20,7 @@ public class SingleLinkedListMain {
         list.del(2);
         list.del(3);
         list.del(4);
+        list.del(4);
 
         System.out.println("----删除后----");
         list.list();
