@@ -16,14 +16,17 @@ public class SingleLinkedListMain {
         list.addByOrder(hero4);
         list.list();
 
-        list.del(1);
-        list.del(2);
-        list.del(3);
-        list.del(4);
-        list.del(4);
+//        System.out.println("---------获取链表长度---------");
+//        int length = SingleLinkedListUtil.getLength(list.getHead());
+//        System.out.println("链表长度为" + length);
 
-        System.out.println("----删除后----");
+//        System.out.println("---------查找单链表中的倒数第k个结点---------");
+//        int lastIndex = 100;
+//        HeroNode lastIndexNode = SingleLinkedListUtil.findLastIndexNode(list.getHead(), lastIndex);
+//        System.out.println("倒数第" + lastIndex + "个节点为:" + lastIndexNode);
+
+        SingleLinkedListUtil.reverseList(list.getHead());
+        System.out.println("---------反转后---------");
         list.list();
-
     }
 }
