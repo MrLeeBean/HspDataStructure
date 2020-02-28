@@ -1,13 +1,13 @@
 package com.shuai.linkedlist;
 
 /**
- * 单向链表
+ * 双向链表
  */
-public class SingleLinkedList {
+public class SingleLinkedListDouble {
 
-    private HeroNode head = new HeroNode(0, "", "");
+    private HeroNode2 head = new HeroNode2(0, "", "");
 
-    public HeroNode getHead() {
+    public HeroNode2 getHead() {
         return head;
     }
 
@@ -16,12 +16,13 @@ public class SingleLinkedList {
      *
      * @param heroNode
      */
-    public void add(HeroNode heroNode) {
-        HeroNode temp = head;//辅助节点
+    public void add(HeroNode2 heroNode) {
+        HeroNode2 temp = head;//辅助节点
         while (temp.next != null) {
             temp = temp.next;
         }
         temp.next = heroNode;
+        heroNode.pre = temp;
     }
 
     /**
@@ -32,11 +33,11 @@ public class SingleLinkedList {
      *
      * @param heroNode
      */
-    public void addByOrder(HeroNode heroNode) {
+    public void addByOrder(HeroNode2 heroNode) {
         //因为头节点不能动，因此我们仍然通过一个辅助指针(变量)来帮助找到添加的位置
         //因为这是单链表，所以我们找的temp是位于添加位置的前一个节点，否则插入不了
 
-        HeroNode temp = head;
+        HeroNode2 temp = head;
         boolean flag = false; // flag标志添加的编号是否存在，默认为false
 
         //开始寻找位置：
@@ -58,8 +59,17 @@ public class SingleLinkedList {
             System.out.printf("准备插入的英雄的编号 %d 已经存在了, 不能加入\n", heroNode.no);
         } else {
             //插入到链表中, temp的后面
+            // temp ---------> xxx
+            //      heroNode
+
             heroNode.next = temp.next;
             temp.next = heroNode;
+
+            heroNode.pre = temp;
+            if (heroNode.next != null) {
+                heroNode.next.pre = heroNode;
+            }
+
         }
     }
 
@@ -71,13 +81,13 @@ public class SingleLinkedList {
      *
      * @param newHeroNode
      */
-    public void update(HeroNode newHeroNode) {
+    public void update(HeroNode2 newHeroNode) {
         //判断链表是否为空
         if (head.next == null) {
             System.out.println("链表为空");
             return;
         }
-        HeroNode temp = head.next;  //定义辅助节点
+        HeroNode2 temp = head.next;  //定义辅助节点
         boolean hasFind = false;    //是否找到要修改的节点
 
         //开始查找位置.
@@ -111,20 +121,28 @@ public class SingleLinkedList {
      * @param no
      */
     public void del(int no) {
-        HeroNode temp = head;
+        if (head.next == null) {
+            System.out.println("链表为空");
+            return;
+        }
+
+        HeroNode2 temp = head.next;
         boolean hasFind = false;// 标志是否找到待删除节点
         while (true) {
-            if (temp.next == null) {//说明temp已经在链表的最后。结束循环。未找到。
+            if (temp == null) {//说明temp已经在链表的最后。结束循环。未找到。
                 break;
             }
-            if (temp.next.no == no) {//找到的待删除节点的前一个节点temp。结束循环。已找到。
+            if (temp.no == no) {//找到的待删除节点的前一个节点temp。结束循环。已找到。
                 hasFind = true;
                 break;
             }
             temp = temp.next;//后移，继续遍历当前链表寻找位置
         }
         if (hasFind) {//找到，可以删除
-            temp.next = temp.next.next;
+            temp.pre.next = temp.next;
+            if (temp.next != null) {
+                temp.next.pre = temp.pre;
+            }
         } else {//未找到。提示。
             System.out.printf("没有找到编号为%d的节点英雄\n", no);
         }
@@ -140,7 +158,7 @@ public class SingleLinkedList {
             return;
         }
         //创建辅助节点，移动向头结点的下一节点
-        HeroNode temp = head.next;
+        HeroNode2 temp = head.next;
         while (temp != null) {//节点不为空
             //1.输出节点信息
             System.out.println(temp);

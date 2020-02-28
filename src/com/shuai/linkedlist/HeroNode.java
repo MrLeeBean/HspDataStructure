@@ -1,5 +1,8 @@
 package com.shuai.linkedlist;
 
+/**
+ * 单向链表节点bean
+ */
 public class HeroNode {
     public int no;//英雄编号
     public String name;//姓名
