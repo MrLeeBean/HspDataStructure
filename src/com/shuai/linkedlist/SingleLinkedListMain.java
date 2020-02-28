@@ -25,8 +25,11 @@ public class SingleLinkedListMain {
 //        HeroNode lastIndexNode = SingleLinkedListUtil.findLastIndexNode(list.getHead(), lastIndex);
 //        System.out.println("倒数第" + lastIndex + "个节点为:" + lastIndexNode);
 
-        SingleLinkedListUtil.reverseList(list.getHead());
-        System.out.println("---------反转后---------");
-        list.list();
+//        SingleLinkedListUtil.reverseList(list.getHead());
+//        System.out.println("---------反转后---------");
+//        list.list();
+
+        System.out.println("---------逆序打印---------");
+        SingleLinkedListUtil.reversePrint(list.getHead());
     }
 }

@@ -1,5 +1,7 @@
 package com.shuai.linkedlist;
 
+import java.util.Stack;
+
 public class SingleLinkedListUtil {
 
     /**
@@ -71,5 +73,29 @@ public class SingleLinkedListUtil {
         }
 
         head.next = reverseHead.next;
+    }
+
+    /**
+     * 逆序打印单链表
+     * 可以利用栈这个数据结构，将各个节点压入到栈中，然后利用栈的先进后出的特点，就实现了逆序打印的效果
+     *
+     * @param head
+     */
+    public static void reversePrint(HeroNode head) {
+        if (head.next == null) {
+            System.out.println("链表为空");
+            return;//空链表，不能打印
+        }
+        Stack<HeroNode> stack = new Stack<>();//创建要给一个栈，将各个节点压入栈
+        HeroNode curNode = head.next;
+        //将链表的所有节点压入栈
+        while (curNode != null) {
+            stack.push(curNode);
+            curNode = curNode.next;
+        }
+        //将栈中的节点进行打印,pop 出栈
+        while (!stack.empty()) {
+            System.out.println(stack.pop());
+        }
     }
 }
