@@ -17,7 +17,7 @@ public class SingleLinkedListDouble {
      * @param heroNode
      */
     public void add(HeroNode2 heroNode) {
-        HeroNode2 temp = head;//辅助节点
+        HeroNode2 temp = head;//辅助变量（指针）
         while (temp.next != null) {
             temp = temp.next;
         }
@@ -87,7 +87,7 @@ public class SingleLinkedListDouble {
             System.out.println("链表为空");
             return;
         }
-        HeroNode2 temp = head.next;  //定义辅助节点
+        HeroNode2 temp = head.next;  //定义辅助变量（指针）
         boolean hasFind = false;    //是否找到要修改的节点
 
         //开始查找位置.
@@ -157,12 +157,12 @@ public class SingleLinkedListDouble {
             System.out.println("链表为空");
             return;
         }
-        //创建辅助节点，移动向头结点的下一节点
+        //创建辅助变量（指针），移动向头结点的下一节点
         HeroNode2 temp = head.next;
         while (temp != null) {//节点不为空
             //1.输出节点信息
             System.out.println(temp);
-            //2.辅助节点继续后移，指向下一个节点
+            //2.辅助变量（指针）继续后移，指向下一个节点
             temp = temp.next;
         }
     }

@@ -63,7 +63,7 @@ public class SingleLinkedListUtil {
         }
         //定义一个新的头节点
         HeroNode reverseHead = new HeroNode(0, "", "");
-        //定义一个辅助节点（当前节点）,帮助遍历原来的链表
+        //定义一个辅助变量（指针）（当前节点）,帮助遍历原来的链表
         HeroNode curNode = head.next;
         while (curNode != null) {
             HeroNode nextNode = curNode.next;//用一个临时的nextNode存储当前节点的下一个节点，因为后面需要使用
