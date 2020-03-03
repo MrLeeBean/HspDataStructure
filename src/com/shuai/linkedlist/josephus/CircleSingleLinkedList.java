@@ -45,7 +45,7 @@ public class CircleSingleLinkedList {
         }
         // 因为first不能动，因此我们仍然使用一个辅助指针完成遍历
         Boy curBoy = first;
-        while (curBoy != null) {
+        while (true) {
             System.out.println("编号：" + curBoy.getNo());
             if (curBoy.getNext() == first) {//遍历完毕
                 break;
