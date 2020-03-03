@@ -9,6 +9,9 @@ public class ArrayStack {
     private int[] stack;    //数组模拟栈，数据就放在该数组
 
     public ArrayStack(int maxSize) {
+        if (maxSize <= 0) {
+            throw new RuntimeException("maxSize不合法");
+        }
         this.maxSize = maxSize;
         stack = new int[maxSize];
     }
@@ -69,8 +72,10 @@ public class ArrayStack {
             return;
         }
         //需要从栈顶开始显示数据
+        System.out.println("<---栈顶--->");
         for (int i = top; i >= 0; i--) {
             System.out.printf("stack[%d] = %d\n", i, stack[i]);
         }
+        System.out.println("<---栈底--->");
     }
 }

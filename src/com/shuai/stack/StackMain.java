@@ -5,7 +5,9 @@ import java.util.Scanner;
 public class StackMain {
     public static void main(String[] args) {
 
-        ArrayStack stack = new ArrayStack(3);
+//        ArrayStack stack = new ArrayStack(3);
+        LinkedListStack stack = new LinkedListStack(3);
+
         Scanner scanner = new Scanner(System.in);
         boolean loop = true;//控制是否退出菜单
         String key = "";
@@ -15,8 +17,12 @@ public class StackMain {
             switch (key) {
                 case "push":
                     System.out.println("请输入数据：");
-                    int i = scanner.nextInt();
-                    stack.push(i);
+                    String i = scanner.next();
+                    if (isInt(i)) {
+                        stack.push(Integer.parseInt(i));
+                    } else {
+                        System.out.println("输入的非int类型");
+                    }
                     break;
 
                 case "pop":
@@ -39,10 +45,20 @@ public class StackMain {
                     break;
 
                 default:
+                    System.out.println("输入非法");
                     break;
             }
         }
         System.out.println("程序退出...");
 
+    }
+
+    public static boolean isInt(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
