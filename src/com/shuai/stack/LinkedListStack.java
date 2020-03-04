@@ -110,6 +110,22 @@ public class LinkedListStack {
     }
 
     /**
+     * 显示栈顶数据
+     *
+     * @return
+     */
+    public int peek() {
+        if (isEmpty()) {
+            throw new RuntimeException("栈空");
+        }
+        Node cur = head.next;
+        while (cur.next != null) {
+            cur = cur.next;
+        }
+        return cur.data;
+    }
+
+    /**
      * 显示栈的情况[遍历栈]， 遍历时，需要从栈顶开始显示数据
      */
     public void show() {

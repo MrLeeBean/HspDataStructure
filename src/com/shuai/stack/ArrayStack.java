@@ -64,6 +64,17 @@ public class ArrayStack {
     }
 
     /**
+     * 显示栈顶数据
+     * @return
+     */
+    public int peek(){
+        if (isEmpty()){
+            throw new RuntimeException("栈空");
+        }
+        return stack[top];
+    }
+
+    /**
      * 显示栈的情况[遍历栈]， 遍历时，需要从栈顶开始显示数据
      */
     public void show() {
