@@ -1,24 +1,19 @@
 package com.shuai.stack;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**
- * 逆波兰
+ * 逆波兰计算器
  */
 public class PolandNotationTest {
     public static void main(String[] args) {
 
-        //  4 * 5 - 8 + 60 + 8 / 2 => 4 5 * 8 - 60 + 8 2 / +
-//        String str = "4 5 * 8 - 60 + 8 2 / +";
-//        int result = calculator(getListFromSuffixExpression(str));
-//        System.out.println(result);
-
-
-        String str = "4*5-8+60+8/2";
+        String str = "1+((2+3)*4)-5";
         List<String> listFromInfixExpression = getListFromInfixExpression(str);
 
-        System.out.println(listFromInfixExpression);
+        System.out.println("中缀List = " + listFromInfixExpression);
+        System.out.println("后缀List = " + switchInfixListToSuffixList(listFromInfixExpression));
+        System.out.println("计算结果 = " + calculator(switchInfixListToSuffixList(listFromInfixExpression)));
 
     }
 
@@ -64,16 +59,6 @@ public class PolandNotationTest {
     }
 
     /**
-     * 后缀表达式转对应的List
-     *
-     * @param suffixExpression 后缀String表达式
-     * @return
-     */
-    public static List<String> getListFromSuffixExpression(String suffixExpression) {
-        return Arrays.asList(suffixExpression.split(" "));
-    }
-
-    /**
      * 中缀表达式转对应的List
      *
      * @param infixExpression 中缀String表达式
@@ -103,5 +88,63 @@ public class PolandNotationTest {
             }
         }
         return list;
+    }
+
+
+    /**
+     * 中缀表达式List转后缀表达式List
+     *
+     * @param infixList 中缀表达式List
+     * @return 后缀表达式List
+     */
+    public static List<String> switchInfixListToSuffixList(List<String> infixList) {
+        //定义两个栈
+        Stack<String> s1 = new Stack<>();// 符号栈
+        //说明：因为s2 这个栈，在整个转换过程中，没有pop操作，而且后面我们还需要逆序输出
+        //因此比较麻烦，这里我们就不用 Stack<String> 直接使用 List<String> s2
+        ArrayList<String> s2 = new ArrayList();// 储存中间结果的List s2
+        for (String item : infixList) {
+            if (item.matches("\\d+")) {// 数 --> 将其压s2；
+                s2.add(item);
+            } else if ("(".equals(item)) {// 左括号 --> 则直接压入s1
+                s1.push(item);
+            } else if (")".equals(item)) {// 右括号
+                //如果是右括号“)”，则依次弹出s1栈顶的运算符，并压入s2，直到遇到左括号为止，此时将这一对括号丢弃
+                while (!"(".equals(s1.peek())) {
+                    s2.add(s1.pop());
+                }
+                s1.pop();//丢弃栈顶的括号.即将 ( 弹出 s1栈， 消除小括号
+            } else {// 运算符
+                while (!s1.empty() && !"(".equals(s1.peek()) && getPriority(item) <= getPriority(s1.peek())) {
+                    s2.add(s1.pop());
+                }
+                s1.push(item);
+            }
+        }
+        //将s1中剩余的运算符依次弹出并加入s2
+        while (!s1.empty()) {
+            s2.add(s1.pop());
+        }
+        //注意因为是存放到List, 因此按顺序输出就是对应的后缀表达式对应的List
+        return s2;
+    }
+
+    /**
+     * 获取运算符的优先级
+     *
+     * @param operator
+     * @return
+     */
+    public static int getPriority(String operator) {
+
+        if ("*".equals(operator) || "/".equals(operator)) {
+            return 2;
+        }
+        if ("+".equals(operator) || "-".equals(operator)) {
+            return 1;
+        }
+        System.out.println("不存在 " + operator + " 运算符");
+        return 0;
+
     }
 }
