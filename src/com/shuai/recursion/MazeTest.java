@@ -25,7 +25,13 @@ public class MazeTest {
         map[3][1] = 1;
         map[3][2] = 1;
 
+        //设置挡板
+        //map[1][2] = 1;
+        //map[2][2] = 1;
+
         printMap("原始地图", map);
+
+        setWay2(map, 1, 1);
 
         printMap("回溯地图", map);
 
@@ -77,6 +83,39 @@ public class MazeTest {
                 } else if (setWay(map, i - 1, j)) {//上
                     return true;
                 } else if (setWay(map, i, j - 1)) {//左
+                    return true;
+                } else {
+                    //说明该点走过但走不通，是死路
+                    map[i][j] = 3;
+                    return false;
+                }
+            } else {
+                // 如果map[i][j] != 0 , 可能是 1（墙 可以走）， 2（走过的 不可以走）， 3（走过但走不通 不可以走）
+                // 总之两个原则：①墙不可以走、②走过的不可以走
+                return false;
+            }
+        }
+
+    }
+
+    /**
+     * 更换策略为上->右->下->左
+     */
+    public static boolean setWay2(int[][] map, int i, int j) {
+        if (map[6][5] == 2) {// 通路已经找到
+            return true;
+        } else {
+            if (map[i][j] == 0) {//如果当前这个点还没有走过
+                // 假定该点是可以走通.
+                map[i][j] = 2;
+                //按照策略 上->右->下->左  走
+                if (setWay2(map, i - 1, j)) {//上
+                    return true;
+                } else if (setWay2(map, i, j + 1)) {//右
+                    return true;
+                } else if (setWay2(map, i + 1, j)) {//下
+                    return true;
+                } else if (setWay2(map, i, j - 1)) {//左
                     return true;
                 } else {
                     //说明该点走过但走不通，是死路
