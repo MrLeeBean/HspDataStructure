@@ -53,12 +53,13 @@ public class SelectSortTest {
                     minIndex = j;// 重置minIndex
                 }
             }
-            //交换
+            //交换arr[i]和arr[minIndex]
             if (minIndex != i) {
-                arr[minIndex] = arr[i];
-                arr[i] = min;
+                int temp = arr[i];
+                arr[i] = arr[minIndex];
+                arr[minIndex] = temp;
             }
-           // System.out.println("第" + (i + 1) + "趟循环后的数组：" + Arrays.toString(arr));
+            //System.out.println("第" + (i + 1) + "趟循环后的数组：" + Arrays.toString(arr));
         }
     }
 }
