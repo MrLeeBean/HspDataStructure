@@ -9,9 +9,14 @@ public class BubbleSortTest {
 
     public static void main(String[] args) {
 
-        int[] arr = {45, 12, 37, 26, 31};
-        sort2(arr);
-        System.out.println("排序完成：" + Arrays.toString(arr));
+//        int[] arr = {45, 12, 37, 26, 31};
+//        sort2(arr);
+//        System.out.println("排序完成：" + Arrays.toString(arr));
+
+        int[] arr = SortUtil.getBigArr();
+        SortUtil.showTime();
+        sort(arr);
+        SortUtil.showTime();
 
     }
 
@@ -30,7 +35,7 @@ public class BubbleSortTest {
                     arr[j + 1] = temp;
                 }
             }
-            System.out.println("第" + (i + 1) + "趟循环后的数组：" + Arrays.toString(arr));
+            //System.out.println("第" + (i + 1) + "趟循环后的数组：" + Arrays.toString(arr));
         }
     }
 
@@ -51,7 +56,7 @@ public class BubbleSortTest {
                     arr[j + 1] = temp;
                 }
             }
-            System.out.println("第" + (i + 1) + "趟循环后的数组：" + Arrays.toString(arr));
+            //System.out.println("第" + (i + 1) + "趟循环后的数组：" + Arrays.toString(arr));
             if (!flag) {// 在一趟排序中，一次交换都没有发生过,则结束循环
                 break;
             }
