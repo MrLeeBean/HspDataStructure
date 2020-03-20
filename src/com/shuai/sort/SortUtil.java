@@ -19,6 +19,17 @@ public class SortUtil {
         String dateStr = simpleDateFormat.format(date);
         System.out.println(dateStr);
     }
+    /**
+     * 展示当前时间。精确到毫秒
+     *
+     * @return
+     */
+    public static void showTime2() {
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
+        String dateStr = simpleDateFormat.format(date);
+        System.out.println(dateStr);
+    }
 
     /**
      * 创建一个包含80000条数据的数组
