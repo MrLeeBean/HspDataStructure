@@ -35,7 +35,7 @@ public class QuickSortTest {
         }
         i = low;
         j = high;
-        //temp就是基准位
+        //flag就是基准位
         flag = arr[low];
 
         while (i < j) {
