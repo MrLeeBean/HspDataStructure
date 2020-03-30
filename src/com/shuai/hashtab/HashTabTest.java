@@ -261,7 +261,7 @@ class EmpLinkedList {
      */
     public void update(Emp emp) {
         if (head == null) {
-            System.out.println("update失败，未找id为" + emp.id + "的雇员，此雇员所在链表为空");
+            System.out.println("update失败，未找到id为" + emp.id + "的雇员，此雇员所在链表为空");
             return;
         }
         Emp temp = head;
@@ -279,7 +279,7 @@ class EmpLinkedList {
         if (hasFind) {//找到temp
             temp.name = emp.name;
         } else {
-            System.out.println("update失败，未找id为" + emp.id + "的雇员");
+            System.out.println("update失败，未找到id为" + emp.id + "的雇员");
         }
     }
 
@@ -290,7 +290,7 @@ class EmpLinkedList {
      */
     public void delete(int id) {
         if (head == null) {
-            System.out.println("delete失败，未找id为" + id + "的雇员，此雇员所在链表为空");
+            System.out.println("delete失败，未找到id为" + id + "的雇员，此雇员所在链表为空");
             return;
         }
 
@@ -317,7 +317,7 @@ class EmpLinkedList {
         if (hasFind) {//找到，就是next
             temp.next = temp.next.next;
         } else {
-            System.out.println("delete失败，未找id为" + id + "的雇员");
+            System.out.println("delete失败，未找到id为" + id + "的雇员");
         }
     }
 
@@ -329,7 +329,7 @@ class EmpLinkedList {
      */
     public Emp findEmpById(int id) {
         if (head == null) {
-            System.out.println("find失败，未找id为" + id + "的雇员，此雇员所在链表为空");
+            System.out.println("find失败，未找到id为" + id + "的雇员，此雇员所在链表为空");
             return null;
         }
         Emp temp = head;
@@ -344,7 +344,7 @@ class EmpLinkedList {
         if (hasFind) {
             return temp;
         } else {
-            System.out.println("find失败，未找id为" + id + "的雇员");
+            System.out.println("find失败，未找到id为" + id + "的雇员");
             return null;
         }
     }
