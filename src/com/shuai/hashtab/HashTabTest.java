@@ -344,7 +344,7 @@ class EmpLinkedList {
         if (hasFind) {
             return temp;
         } else {
-            System.out.println("未找id为" + id + "的雇员，此雇员所在链表为空");
+            System.out.println("未找id为" + id + "的雇员");
             return null;
         }
     }
