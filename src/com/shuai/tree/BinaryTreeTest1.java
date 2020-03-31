@@ -1,5 +1,8 @@
 package com.shuai.tree;
 
+/**
+ * 前序中序后续遍历
+ */
 public class BinaryTreeTest1 {
     public static void main(String[] args) {
 
