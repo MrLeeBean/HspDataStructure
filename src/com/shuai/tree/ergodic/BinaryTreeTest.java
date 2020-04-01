@@ -1,9 +1,9 @@
-package com.shuai.tree;
+package com.shuai.tree.ergodic;
 
 /**
  * 前序中序后续遍历
  */
-public class BinaryTreeTest1 {
+public class BinaryTreeTest {
     public static void main(String[] args) {
 
         //创建节点
@@ -45,16 +45,28 @@ class BinaryTree {
 
     //前序遍历
     public void preOrder() {
+        if (root == null) {
+            System.out.println("二叉树为空");
+            return;
+        }
         root.preOrder();
     }
 
     //中序遍历
     public void infixOrder() {
+        if (root == null) {
+            System.out.println("二叉树为空");
+            return;
+        }
         root.infixOrder();
     }
 
     //后序遍历
     public void postOrder() {
+        if (root == null) {
+            System.out.println("二叉树为空");
+            return;
+        }
         root.postOrder();
     }
 }
