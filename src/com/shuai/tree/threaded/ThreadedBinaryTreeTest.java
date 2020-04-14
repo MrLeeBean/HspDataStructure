@@ -134,8 +134,8 @@ class HeroNode {
     @Override
     public String toString() {
         return "[ " + "no=" + no + ",name=" + name +
-                (left == null ? ",left=null" : ",left.no=" + left.no) +
-                (right == null ? ",right=null" : ",right.no=" + right.no) +
+                (left == null ? ",left=null  " : ",left.name=" + left.name) +
+                (right == null ? ",right=null  " : ",right.name=" + right.name) +
                 ",leftType=" + leftType + ",rightType=" + rightType +
                 " ]";
     }
