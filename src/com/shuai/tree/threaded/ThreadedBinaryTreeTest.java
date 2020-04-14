@@ -121,8 +121,8 @@ class HeroNode {
     public HeroNode left; //左指针，默认null
     public HeroNode right; //右指针，默认null
     //说明
-    //1. 如果leftType == 0 表示左指针指向的是左子树节点, 如果 1 表示左指针指向的是前驱节点（左指针为线索）
-    //2. 如果rightType == 0 表示右指针指向的是右子树节点, 如果 1 表示右指针指的是后继节点（右指针为线索）
+    //1. 如果leftType == 0 表示左指针指向的是左子树节点（指针为子节点指针）, 如果 1 表示左指针指向的是前驱节点（指针为线索指针）
+    //2. 如果rightType == 0 表示右指针指向的是右子树节点（指针为子节点指针）, 如果 1 表示右指针指的是后继节点（指针为线索指针）
     public int leftType;
     public int rightType;
 
