@@ -30,10 +30,20 @@ public class ThreadedBinaryTreeTest {
 
         ThreadedBinaryTree tree = new ThreadedBinaryTree();
         tree.setRoot(node_a);
-        //中序线索化二叉树
-        tree.infixThreadedTree(node_a);
-        //遍历中序线索化二叉树
-        tree.infixThreadedTreeList();
+
+//        //中序线索化二叉树
+//        tree.infixThreadedTree(node_a);
+//        //遍历中序线索化二叉树
+//        System.out.println("按照后继方式（正序） - 遍历中序线索化二叉树");
+//        tree.infixThreadedTreeList1();
+//        System.out.println("按照前驱方式（倒序） - 遍历中序线索化二叉树");
+//        tree.infixThreadedTreeList2();
+
+        //前序线索化二叉树
+        tree.preThreadedTree(node_a);
+        //遍历前序线索化二叉树
+        tree.preThreadedTreeList();
+
     }
 
 }
@@ -45,7 +55,6 @@ class ThreadedBinaryTree {
     public void setRoot(HeroNode root) {
         this.root = root;
     }
-
 
     //为了实现线索化，需要创建 当前节点的前驱节点，在递归进行线索化时，pre总是保留前一个节点
     private HeroNode pre;
@@ -67,19 +76,19 @@ class ThreadedBinaryTree {
         /**(二)线索化当前节点*/
         //处理当前节点的前驱节点
         if (node.left == null) {
-            //让当前节点的左指针指向前驱节点 
+            //让当前节点的左指针指向前驱节点
             node.left = pre;
             //修改当前节点的左指针的类型
             node.leftType = 1;
         }
-        //处理后继节点（注意这里处理的是上一个节点，即前驱节点 的后继节点）
+        //处理后继节点（注意：这里处理的是上一个节点的后继节点，即前驱节点的后继节点）
         if (pre != null && pre.right == null) {
             //让前驱节点的右指针指向当前节点
             pre.right = node;
             //修改前驱节点的右指针类型
             pre.rightType = 1;
         }
-        //每处理一个结点后，让当前结点是下一个结点的前驱结点
+        //每处理一个节点后，让当前节点是下一个节点的前驱节点
         pre = node;
 
         /**(三)再线索化右子树*/
@@ -89,27 +98,123 @@ class ThreadedBinaryTree {
 
     /**
      * 遍历中序线索化二叉树
+     * 方法一：按照后继方式遍历（思路：找到最左子节点开始）
      */
-    public void infixThreadedTreeList() {
+    public void infixThreadedTreeList1() {
         //定义一个变量，存储当前遍历的节点，从root开始
         HeroNode node = root;
+        //循环的找到leftType == 1的第一个节点（即第一个左指针为线索的节点），此节点为当前树 中序遍历 的开始节点
+        while (node != null && node.leftType == 0) {
+            node = node.left;
+        }
 
         while (node != null) {
-            //循环的找到leftType == 1的第一个节点（即第一个线索节点），此节点为 当前树中序遍历的第一个节点
+            //输出当前节点
+            System.out.println(node);
+
+            if (node.rightType == 1) { // 1.如果当前节点的右指针是线索
+                //移位到下一个节点（后继节点）
+                node = node.right;
+            } else { // 2.如果当前节点的右指针不是线索
+                //移位到下一个节点（右子树节点）
+                node = node.right;
+                //找到右子树开始的节点
+                while (node != null && node.leftType == 0) {
+                    node = node.left;
+                }
+                //到此，通过循环找到了右子树的开始节点
+                //继续下一次循环
+            }
+        }
+    }
+
+    /**
+     * 遍历中序线索化二叉树
+     * 方法二：按照前驱方式遍历（思路：找到最右子节点开始倒序遍历）
+     */
+    public void infixThreadedTreeList2() {
+        //定义一个变量，存储当前遍历的节点，从root开始
+        HeroNode node = root;
+        //循环的找到rightType == 1的第一个节点（即第一个右指针为线索的节点），此节点为当前树 中序遍历的最后一个节点
+        while (node.right != null && node.rightType == 0) {
+            node = node.right;
+        }
+
+        while (node != null) {
+            //输出当前节点
+            System.out.println(node);
+
+            if (node.leftType == 1) {// 1.如果当前节点的左指针是线索
+                //移位到上一个节点（前驱节点）
+                node = node.left;
+            } else { // 1.如果当前节点的左指针不是线索
+                //移位到上一个节点（左子树节点）
+                node = node.left;
+                //找到左子树的最后一个节点
+                while (node.right != null && node.rightType == 0) {
+                    node = node.right;
+                }
+                //到此，通过循环找到了左子树的最后节点
+                //继续下一次循环
+            }
+        }
+    }
+
+    /**
+     * 前序线索化二叉树
+     *
+     * @param node
+     */
+    public void preThreadedTree(HeroNode node) {
+        //如果node==null, 不能线索化
+        if (node == null) {
+            return;
+        }
+
+        /**(一)线索化当前节点*/
+        //处理当前节点的前驱节点
+        if (node.left == null) {
+            //让当前节点的左指针指向前驱节点
+            node.left = pre;
+            //修改当前节点的左指针的类型
+            node.leftType = 1;
+        }
+        //处理后继节点（注意：这里处理的是上一个节点的后继节点，即前驱节点的后继节点）
+        if (pre != null && pre.right == null) {
+            //让前驱节点的右指针指向当前节点
+            pre.right = node;
+            //修改前驱节点的右指针类型
+            pre.rightType = 1;
+        }
+        //每处理一个节点后，让当前节点是下一个节点的前驱节点
+        pre = node;
+
+        /**(二)线索化左子树*/
+        if (node.leftType == 0) {
+            preThreadedTree(node.left);
+        }
+        /**(三)线索化右子树*/
+        if (node.rightType == 0) {
+            preThreadedTree(node.right);
+        }
+
+    }
+
+    /**
+     * 遍历前序线索化二叉树
+     */
+    public void preThreadedTreeList() {
+        //定义一个变量，存储当前遍历的节点，从root开始
+        HeroNode node = root;
+        while (node != null) {
+            //循环的找到leftType == 1的第一个节点（即第一个左指针为线索的节点），并一直输出。
             while (node.leftType == 0) {
+                System.out.println(node);
                 node = node.left;
             }
-            //输出当前树 第一个节点
+            //输出当前树 第一个左指针为线索的节点
             System.out.println(node);
-            //如果当前节点的右指针指向的是后继节点,就一直输出
-            while (node.rightType == 1) {
-                //获取到当前节点的后继节点
-                node = node.right;
-                //输出
-                System.out.println(node);
-            }
-            // 找到普通节点
-            // 继续下一次循环遍历
+            //移位到下一个节点，继续遍历
             node = node.right;
         }
     }
