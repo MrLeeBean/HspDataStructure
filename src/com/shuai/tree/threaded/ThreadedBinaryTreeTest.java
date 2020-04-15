@@ -31,18 +31,15 @@ public class ThreadedBinaryTreeTest {
         ThreadedBinaryTree tree = new ThreadedBinaryTree();
         tree.setRoot(node_a);
 
-//        //中序线索化二叉树
-//        tree.infixThreadedTree(node_a);
-//        //遍历中序线索化二叉树
-//        System.out.println("按照后继方式（正序） - 遍历中序线索化二叉树");
-//        tree.infixThreadedTreeList1();
-//        System.out.println("按照前驱方式（倒序） - 遍历中序线索化二叉树");
-//        tree.infixThreadedTreeList2();
+        //中序线索化二叉树
+        tree.infixThreadedTree(node_a);
+        //遍历中序线索化二叉树
+        tree.infixThreadedTreeList();
 
-        //前序线索化二叉树
-        tree.preThreadedTree(node_a);
-        //遍历前序线索化二叉树
-        tree.preThreadedTreeList();
+//        //前序线索化二叉树
+//        tree.preThreadedTree(node_a);
+//        //遍历前序线索化二叉树
+//        tree.preThreadedTreeList();
 
     }
 
@@ -98,9 +95,9 @@ class ThreadedBinaryTree {
 
     /**
      * 遍历中序线索化二叉树
-     * 方法一：按照后继方式遍历（思路：找到最左子节点开始）
+     * 思路：找到最左子节点开始
      */
-    public void infixThreadedTreeList1() {
+    public void infixThreadedTreeList() {
         //定义一个变量，存储当前遍历的节点，从root开始
         HeroNode node = root;
         //循环的找到leftType == 1的第一个节点（即第一个左指针为线索的节点），此节点为当前树 中序遍历 的开始节点
@@ -128,37 +125,6 @@ class ThreadedBinaryTree {
         }
     }
 
-    /**
-     * 遍历中序线索化二叉树
-     * 方法二：按照前驱方式遍历（思路：找到最右子节点开始倒序遍历）
-     */
-    public void infixThreadedTreeList2() {
-        //定义一个变量，存储当前遍历的节点，从root开始
-        HeroNode node = root;
-        //循环的找到rightType == 1的第一个节点（即第一个右指针为线索的节点），此节点为当前树 中序遍历的最后一个节点
-        while (node.right != null && node.rightType == 0) {
-            node = node.right;
-        }
-
-        while (node != null) {
-            //输出当前节点
-            System.out.println(node);
-
-            if (node.leftType == 1) {// 1.如果当前节点的左指针是线索
-                //移位到上一个节点（前驱节点）
-                node = node.left;
-            } else { // 1.如果当前节点的左指针不是线索
-                //移位到上一个节点（左子树节点）
-                node = node.left;
-                //找到左子树的最后一个节点
-                while (node.right != null && node.rightType == 0) {
-                    node = node.right;
-                }
-                //到此，通过循环找到了左子树的最后节点
-                //继续下一次循环
-            }
-        }
-    }
 
     /**
      * 前序线索化二叉树
