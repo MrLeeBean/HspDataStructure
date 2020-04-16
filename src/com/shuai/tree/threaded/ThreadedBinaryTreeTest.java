@@ -31,15 +31,15 @@ public class ThreadedBinaryTreeTest {
         ThreadedBinaryTree tree = new ThreadedBinaryTree();
         tree.setRoot(node_a);
 
-        //中序线索化二叉树
-        tree.infixThreadedTree(node_a);
-        //遍历中序线索化二叉树
-        tree.infixThreadedTreeList();
+//        //中序线索化二叉树
+//        tree.infixThreadedTree(node_a);
+//        //遍历中序线索化二叉树
+//        tree.infixThreadedTreeList();
 
-//        //前序线索化二叉树
-//        tree.preThreadedTree(node_a);
-//        //遍历前序线索化二叉树
-//        tree.preThreadedTreeList();
+        //前序线索化二叉树
+        tree.preThreadedTree(node_a);
+        //遍历前序线索化二叉树
+        tree.preThreadedTreeList();
 
     }
 
@@ -93,35 +93,30 @@ class ThreadedBinaryTree {
 
     }
 
+
     /**
      * 遍历中序线索化二叉树
-     * 思路：找到最左子节点开始
      */
     public void infixThreadedTreeList() {
         //定义一个变量，存储当前遍历的节点，从root开始
         HeroNode node = root;
-        //循环的找到leftType == 1的第一个节点（即第一个左指针为线索的节点），此节点为当前树 中序遍历 的开始节点
-        while (node != null && node.leftType == 0) {
-            node = node.left;
-        }
-
         while (node != null) {
-            //输出当前节点
-            System.out.println(node);
-
-            if (node.rightType == 1) { // 1.如果当前节点的右指针是线索
-                //移位到下一个节点（后继节点）
-                node = node.right;
-            } else { // 2.如果当前节点的右指针不是线索
-                //移位到下一个节点（右子树节点）
-                node = node.right;
-                //找到右子树开始的节点
-                while (node != null && node.leftType == 0) {
-                    node = node.left;
-                }
-                //到此，通过循环找到了右子树的开始节点
-                //继续下一次循环
+            //循环的找到最左子节点（即第一个 左节点为线索的节点）,此节点为 当前树中序遍历的第一个节点
+            while (node.leftType == 0) {
+                node = node.left;
             }
+            //输出当前树 第一个节点
+            System.out.println(node);
+            //如果当前节点的右指针是线索（指向的是后继节点）,就一直输出
+            while (node.rightType == 1) {
+                //获取到当前节点的后继节点
+                node = node.right;
+                //输出
+                System.out.println(node);
+            }
+            // 当前节点的右指针为子节点指针
+            // 移位到下一个节点，继续下次的循环遍历
+            node = node.right;
         }
     }
 
@@ -173,14 +168,14 @@ class ThreadedBinaryTree {
         //定义一个变量，存储当前遍历的节点，从root开始
         HeroNode node = root;
         while (node != null) {
-            //循环的找到leftType == 1的第一个节点（即第一个左指针为线索的节点），并一直输出。
+            //循环的找到最左子节点（即第一个左指针为线索的节点），并一直输出。
             while (node.leftType == 0) {
                 System.out.println(node);
                 node = node.left;
             }
             //输出当前树 第一个左指针为线索的节点
             System.out.println(node);
-            //移位到下一个节点，继续遍历
+            //移位到下一个节点，继续下次的循环遍历
             node = node.right;
         }
     }
