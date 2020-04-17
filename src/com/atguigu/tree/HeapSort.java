@@ -20,9 +20,9 @@ public class HeapSort {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String date1Str = simpleDateFormat.format(data1);
 		System.out.println("排序前的时间是=" + date1Str);
-		
+
 		heapSort(arr);
-		
+
 		Date data2 = new Date();
 		String date2Str = simpleDateFormat.format(data2);
 		System.out.println("排序前的时间是=" + date2Str);
@@ -37,7 +37,7 @@ public class HeapSort {
 //		//分步完成
 //		adjustHeap(arr, 1, arr.length);
 //		System.out.println("第一次" + Arrays.toString(arr)); // 4, 9, 8, 5, 6
-//		
+//
 //		adjustHeap(arr, 0, arr.length);
 //		System.out.println("第2次" + Arrays.toString(arr)); // 9,6,8,5,4
 		
@@ -56,7 +56,7 @@ public class HeapSort {
 			temp = arr[j];
 			arr[j] = arr[0];
 			arr[0] = temp;
-			adjustHeap(arr, 0, j); 
+			adjustHeap(arr, 0, j);
 		}
 		
 		//System.out.println("数组=" + Arrays.toString(arr)); 
