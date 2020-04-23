@@ -22,6 +22,13 @@ public class HuffmanCodeTest {
         System.out.println("\n赫夫曼树遍历结果：");
         //前序遍历赫夫曼树
         rootNode.preOrder();
+
+        //获取赫夫曼编码表
+        System.out.println("\n赫夫曼编码表结果：");
+        Map<Byte, String> codes = getCodes(rootNode);
+        for (Map.Entry<Byte, String> entry : codes.entrySet()) {
+            System.out.println(entry.getKey() + "--" + entry.getValue());
+        }
     }
 
     /**
@@ -86,6 +93,54 @@ public class HuffmanCodeTest {
             return;
         }
         root.preOrder();
+    }
+
+    // 将赫夫曼编码表存放在 Map<Byte,String> 中
+    // 生成的赫夫曼编码表为： {32=01, 97=100, 100=11000, 117=11001, 101=1110, 118=11011, 105=101, 121=11010, 106=0010, 107=1111, 108=000, 111=0011}
+    public static Map<Byte, String> huffmanCodes = new HashMap<>();
+
+    /**
+     * 生成赫夫曼树对应的赫夫曼编码表
+     *
+     * @param root 根节点
+     * @return 赫夫曼编码表
+     */
+    public static Map<Byte, String> getCodes(Node root) {
+        if (root == null) {
+            return null;
+        }
+        // 生成赫夫曼编码表，需要去拼接路径, 所以定义一个StringBuilder用于存储某个叶子节点的路径
+        StringBuilder builder = new StringBuilder();
+        // 处理root的左子树
+        getCodes(root.left, "0", builder);
+        // 处理root的右子树
+        getCodes(root.right, "1", builder);
+
+        return huffmanCodes;
+    }
+
+    /**
+     * 功能：将传入的node节点的所有叶子节点的赫夫曼编码（码字）得到，并放入到huffmanCodes集合
+     *
+     * @param node    节点
+     * @param code    节点的路径：此节点是其父节点的左子节点 路径code为 0, 此节点是其父节点的右子节点 路径code为1
+     * @param builder 用于拼接路径
+     */
+    private static void getCodes(Node node, String code, StringBuilder builder) {
+        StringBuilder builder1 = new StringBuilder(builder);
+        //将 code 加入到 builder1
+        builder1.append(code);
+        if (node != null) {//如果node == null不处理
+            //判断 当前node 是叶子节点还是非叶子节点
+            if (node.data == null) {//非叶子节点
+                //递归处理:向左递归
+                getCodes(node.left, "0", builder1);
+                //递归处理:向右递归
+                getCodes(node.right, "1", builder1);
+            } else {//叶子节点
+                huffmanCodes.put(node.data, builder1.toString());
+            }
+        }
     }
 }
 
