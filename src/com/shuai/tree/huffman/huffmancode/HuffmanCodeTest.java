@@ -150,8 +150,8 @@ public class HuffmanCodeTest {
     /**
      * 将原始字符串对应的byte[] 数组，转换为赫夫曼编码，并压缩存入byte[]数组（压缩）
      *
-     * @param bytes
-     * @return
+     * @param bytes 原始的字符串对应的字节数组
+     * @return      赫夫曼编码处理后的字节数组(压缩后的数组)
      */
     public static byte[] huffmanZip(byte[] bytes) {
 
