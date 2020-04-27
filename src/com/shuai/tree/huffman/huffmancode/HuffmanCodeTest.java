@@ -29,6 +29,10 @@ public class HuffmanCodeTest {
         for (Map.Entry<Byte, String> entry : codes.entrySet()) {
             System.out.println(entry.getKey() + "--" + entry.getValue());
         }
+
+        //将原始字符串，经过赫夫曼编码，压缩存入byte[]数组
+        byte[] huffmanCodesBytes = huffmanZip(content.getBytes());
+        System.out.println("\n压缩后的结果是:" + Arrays.toString(huffmanCodesBytes) + " 长度= " + huffmanCodesBytes.length);
     }
 
     /**
@@ -141,6 +145,53 @@ public class HuffmanCodeTest {
                 huffmanCodes.put(node.data, builder1.toString());
             }
         }
+    }
+
+    /**
+     * 将原始字符串对应的byte[] 数组，转换为赫夫曼编码，并压缩存入byte[]数组（压缩）
+     *
+     * @param bytes
+     * @return
+     */
+    public static byte[] huffmanZip(byte[] bytes) {
+
+        //将字节数组转换为List<Node>
+        List<Node> nodes = getNodes(bytes);
+        //通过List<Node> 创建对应的赫夫曼树
+        Node huffmanTree = createHuffmanTree(nodes);
+        //生成赫夫曼树对应的赫夫曼编码表
+        Map<Byte, String> codes = getCodes(huffmanTree);
+
+        //将原始字节数组bytes，通过查找编码表codes，生成最终的赫夫曼编码对应的字符串
+        //字符串："1010100010111111110010001011111111001000101111111100100101001101110001110000011011101000111100101000101111111100110001001010011011100"
+        StringBuilder builder = new StringBuilder();
+        for (byte b : bytes) {
+            builder.append(codes.get(b));
+        }
+
+        // 因为是每8位对应一个byte
+        // 所以这个字符串 需要按照每8个分割一组，将每组的字符串转成对应的二进制数值，存储到字节里(byte)，最终全部存储到字节数组(byte[])中。
+        int len;//计算需要存储的字节数组长度
+        if (builder.length() % 8 == 0) {
+            len = builder.length() / 8;
+        } else {
+            len = builder.length() / 8 + 1;
+        }
+
+        //创建字节数组
+        byte[] resultBytes = new byte[len];
+
+        // 10101000   10111111   1100100    01011...
+        // 除8 = 0    1          2          3    ...
+        // [0 --7)    [8-->15)  [16-->23)  [24...
+        for (int i = 0; i < builder.length(); i += 8) {//i = 0、8、16、24...
+            if (i + 8 > builder.length() - 1) {//执行到最后一次循环了
+                resultBytes[i / 8] = (byte) Integer.parseInt(builder.substring(i), 2);
+            } else {//还有下次循环。
+                resultBytes[i / 8] = (byte) Integer.parseInt(builder.substring(i, i + 8), 2);
+            }
+        }
+        return resultBytes;
     }
 }
 
