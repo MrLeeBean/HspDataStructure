@@ -9,6 +9,7 @@ public class HuffmanCodeTest {
     public static void main(String[] args) {
 
         String content = "i like like like java do you like a java";
+        /*
         List<Node> nodes = getNodes(content.getBytes());
 
         //遍历List<Node>
@@ -29,7 +30,7 @@ public class HuffmanCodeTest {
         for (Map.Entry<Byte, String> entry : codes.entrySet()) {
             System.out.println(entry.getKey() + "--" + entry.getValue());
         }
-
+        */
         //将原始字符串，经过赫夫曼编码，压缩存入byte[]数组
         byte[] huffmanCodesBytes = huffmanZip(content.getBytes());
         System.out.println("\n压缩后的结果是:" + Arrays.toString(huffmanCodesBytes) + " 长度= " + huffmanCodesBytes.length);
