@@ -10,7 +10,7 @@ public class HuffmanCodeTest {
 
         String content = "i like like like java do you like a java";
 
-       /*
+        /*
         List<Node> nodes = getNodes(content.getBytes());
 
         //遍历List<Node>
@@ -24,22 +24,23 @@ public class HuffmanCodeTest {
         System.out.println("\n赫夫曼树遍历结果：");
         //前序遍历赫夫曼树
         rootNode.preOrder();
-
-        //获取赫夫曼编码表
-        System.out.println("\n赫夫曼编码表结果：");
-        Map<Byte, String> codes = getHuffmanTable(rootNode);
-        for (Map.Entry<Byte, String> entry : codes.entrySet()) {
-            System.out.println(entry.getKey() + "--" + entry.getValue());
-        }
         */
 
         //--------------------------数据的压缩解压------------------------------------//
+
+        //获取赫夫曼编码表
+        System.out.println("\n赫夫曼编码表结果：");
+        Map<Byte, String> huffmanTable = getHuffmanTable(content.getBytes());//获取赫夫曼编码表
+        for (Map.Entry<Byte, String> entry : huffmanTable.entrySet()) {
+            System.out.println(entry.getKey() + "--" + entry.getValue());
+        }
 
         System.out.println("\n----数据压缩和解压----\n");
 
         System.out.println("原始数据[字符串]为：" + content);
         System.out.println("原始数据[字节数组]为：" + Arrays.toString(content.getBytes()) + " 长度= " + content.getBytes().length);
-        byte[] huffmanResultBytes = huffmanZip(content.getBytes());//将原始字符串，经过赫夫曼编码，压缩存入byte[]数组
+
+        byte[] huffmanResultBytes = huffmanZip(content.getBytes(), huffmanTable);//将原始字符串，经过赫夫曼编码，压缩存入byte[]数组
         System.out.println("压缩后数据[字节数组]为：" + Arrays.toString(huffmanResultBytes) + " 长度= " + huffmanResultBytes.length);
 
         byte[] huffmanSourceBytes = huffmanUnzip(huffmanResultBytes, huffmanTable);
@@ -112,26 +113,33 @@ public class HuffmanCodeTest {
         root.preOrder();
     }
 
-    // 将赫夫曼编码表存放在 Map<Byte,String> 中
-    // 生成的赫夫曼编码表为： {32=01, 97=100, 100=11000, 117=11001, 101=1110, 118=11011, 105=101, 121=11010, 106=0010, 107=1111, 108=000, 111=0011}
-    public static Map<Byte, String> huffmanTable = new HashMap<>();
-
     /**
      * 生成赫夫曼树对应的赫夫曼编码表
      *
-     * @param root 根节点
+     * @param bytes 原始数据的字节数组
      * @return 赫夫曼编码表
      */
-    public static Map<Byte, String> getHuffmanTable(Node root) {
+    public static Map<Byte, String> getHuffmanTable(byte[] bytes) {
+
+        //将字节数组转换为List<Node>
+        List<Node> nodes = getNodes(bytes);
+        //通过List<Node> 创建对应的赫夫曼树
+        Node root = createHuffmanTree(nodes);
+
         if (root == null) {
             return null;
         }
+
+        // 将赫夫曼编码表存放在 Map<Byte,String> 中
+        // 生成的赫夫曼编码表为： {32=01, 97=100, 100=11000, 117=11001, 101=1110, 118=11011, 105=101, 121=11010, 106=0010, 107=1111, 108=000, 111=0011}
+        Map<Byte, String> huffmanTable = new HashMap<>();
+
         // 生成赫夫曼编码表，需要去拼接路径, 所以定义一个StringBuilder用于存储某个叶子节点的路径
         StringBuilder builder = new StringBuilder();
         // 处理root的左子树
-        getHuffmanTable(root.left, "0", builder);
+        getHuffmanTable(huffmanTable, root.left, "0", builder);
         // 处理root的右子树
-        getHuffmanTable(root.right, "1", builder);
+        getHuffmanTable(huffmanTable, root.right, "1", builder);
 
         return huffmanTable;
     }
@@ -143,7 +151,7 @@ public class HuffmanCodeTest {
      * @param code    节点的路径：此节点是其父节点的左子节点 路径code为 0, 此节点是其父节点的右子节点 路径code为1
      * @param builder 用于拼接路径
      */
-    private static void getHuffmanTable(Node node, String code, StringBuilder builder) {
+    private static void getHuffmanTable(Map<Byte, String> huffmanTable, Node node, String code, StringBuilder builder) {
         StringBuilder builder1 = new StringBuilder(builder);
         //将 code 加入到 builder1
         builder1.append(code);
@@ -151,9 +159,9 @@ public class HuffmanCodeTest {
             //判断 当前node 是叶子节点还是非叶子节点
             if (node.data == null) {//非叶子节点
                 //递归处理:向左递归
-                getHuffmanTable(node.left, "0", builder1);
+                getHuffmanTable(huffmanTable, node.left, "0", builder1);
                 //递归处理:向右递归
-                getHuffmanTable(node.right, "1", builder1);
+                getHuffmanTable(huffmanTable, node.right, "1", builder1);
             } else {//叶子节点
                 huffmanTable.put(node.data, builder1.toString());
             }
@@ -165,23 +173,17 @@ public class HuffmanCodeTest {
     /**
      * 将原始字符串对应的byte[] 数组，转换为最终的赫夫曼编码，并压缩存入byte[]数组（压缩）
      *
-     * @param bytes 原始的字符串对应的字节数组
-     * @return     赫夫曼编码处理后的字节数组(压缩后的数组)
+     * @param bytes        原始的字符串对应的字节数组
+     * @param huffmanTable 赫夫曼编码表
+     * @return 赫夫曼编码处理后的字节数组(压缩后的数组)
      */
-    public static byte[] huffmanZip(byte[] bytes) {
-
-        //将字节数组转换为List<Node>
-        List<Node> nodes = getNodes(bytes);
-        //通过List<Node> 创建对应的赫夫曼树
-        Node huffmanTree = createHuffmanTree(nodes);
-        //生成赫夫曼树对应的赫夫曼编码表
-        Map<Byte, String> codes = getHuffmanTable(huffmanTree);
+    public static byte[] huffmanZip(byte[] bytes, Map<Byte, String> huffmanTable) {
 
         //将原始字节数组bytes，通过查找编码表codes，生成最终的赫夫曼编码对应的字符串
         //字符串："1010100010111111110010001011111111001000101111111100100101001101110001110000011011101000111100101000101111111100110001001010011011100"
         StringBuilder builder = new StringBuilder();
         for (byte b : bytes) {
-            builder.append(codes.get(b));
+            builder.append(huffmanTable.get(b));
         }
 
         // 因为是每8位对应一个byte
