@@ -4,16 +4,21 @@ package com.shuai;
 public class Test {
 
     public static void main(String[] args) {
-        String str = "https://dl4.weshineapp.com/kk/phrase/icon/20200403/b83225967fb3c8eff2208e7da2917506.jpg";
-        System.out.println(me(str));
-    }
+        byte b = 21;
+        String method = method(b, false);
+        System.out.println(method);
 
-    public static String me(String str) {
-        String key = "kk/phrase/icon";
-        return str.substring(str.indexOf(key));
     }
 
 
+    public static String method(byte b, boolean flag) {
+        if (flag) {
+            return String.format("%8s", Integer.toBinaryString(b & 0xFF)).replace(' ', '0');
+        } else {
+            return String.format("%s", Integer.toBinaryString(b));
+        }
+
+    }
 }
 
 
