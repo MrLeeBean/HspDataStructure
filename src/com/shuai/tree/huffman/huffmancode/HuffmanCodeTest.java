@@ -1,5 +1,6 @@
 package com.shuai.tree.huffman.huffmancode;
 
+import java.io.*;
 import java.util.*;
 
 /**
@@ -48,6 +49,14 @@ public class HuffmanCodeTest {
         System.out.println("解压后的结果[字符串]为：" + new String(huffmanSourceBytes));
 
         System.out.println("\n----数据压缩和解压----\n");
+
+        //--------------------------文件的压缩解压------------------------------------//
+
+        //压缩文件
+        zipFile("/Users/changshuai/Desktop/test.png", "/Users/changshuai/Desktop/test.huffmanzip");
+        //解压文件
+        unzipFile("/Users/changshuai/Desktop/test.huffmanzip", "/Users/changshuai/Desktop/testsrc.png");
+
     }
 
     /**
@@ -273,6 +282,102 @@ public class HuffmanCodeTest {
             sourceBytes[i] = list.get(i);
         }
         return sourceBytes;
+    }
+
+    //---------------------------------------文件压缩--------------------------------------------//
+
+    /**
+     * 压缩文件
+     *
+     * @param srcFile 源文件路径
+     * @param zipFile 存储压缩文件的路径
+     */
+    public static void zipFile(String srcFile, String zipFile) {
+
+        //输入流
+        FileInputStream fis = null;
+
+        //输出流
+        ObjectOutputStream oos = null;
+        FileOutputStream fos = null;
+
+        try {
+            fis = new FileInputStream(srcFile);
+            //创建一个和源文件大小一样的byte[]
+            byte[] srcBytes = new byte[fis.available()];
+
+            //读取文件到srcBytes中
+            fis.read(srcBytes);
+            //获取赫夫曼编码表
+            Map<Byte, String> huffmanTable = getHuffmanTable(srcBytes);
+            //执行赫夫曼压缩
+            byte[] desBytes = huffmanZip(srcBytes, huffmanTable);
+
+            fos = new FileOutputStream(zipFile);
+            oos = new ObjectOutputStream(fos);
+
+            // 输出流存储压缩文件
+            oos.writeObject(desBytes);
+            // 输出流存储赫夫曼编码表
+            oos.writeObject(huffmanTable);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fis.close();
+                oos.close();
+                fos.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    //---------------------------------------文件解压--------------------------------------------//
+
+    /**
+     * 解压缩文件
+     *
+     * @param zipFile 压缩文件路径
+     * @param srcFile 存储还原文件（源文件）的路径
+     */
+    public static void unzipFile(String zipFile, String srcFile) {
+
+        //输入流
+        FileInputStream fis = null;
+        ObjectInputStream ois = null;
+
+        //输出流
+        FileOutputStream fos = null;
+
+        try {
+            fis = new FileInputStream(zipFile);
+            ois = new ObjectInputStream(fis);
+            //读取压缩文件存储的：byte[]数组
+            byte[] zipBytes = (byte[]) ois.readObject();
+            //读取压缩文件存储的：赫夫曼编码表
+            Map<Byte, String> huffmanTable = (Map<Byte, String>) ois.readObject();
+
+            //数据还原
+            byte[] srcBytes = huffmanUnzip(zipBytes, huffmanTable);
+
+            //输出文件
+            fos = new FileOutputStream(srcFile);
+            fos.write(srcBytes);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fis.close();
+                ois.close();
+                fos.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }
 
