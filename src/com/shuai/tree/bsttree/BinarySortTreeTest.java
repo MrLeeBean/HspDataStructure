@@ -7,7 +7,7 @@ public class BinarySortTreeTest {
 
     public static void main(String[] args) {
         int[] arr = {7, 3, 10, 12, 5, 1, 9};
-        BinarySoftTree tree = new BinarySoftTree();
+        BinarySortTree tree = new BinarySortTree();
         //循环的添加结点到二叉排序树
         for (int i : arr) {
             tree.add(new Node(i));
@@ -19,7 +19,7 @@ public class BinarySortTreeTest {
 /**
  * 二叉排序树类
  */
-class BinarySoftTree {
+class BinarySortTree {
     private Node root;
 
     /**
@@ -79,14 +79,14 @@ class Node {
         }
         if (node.value < this.value) {//添加的结点的值小于当前结点的值
             if (this.left != null) {
-                //递归的向左子树添加
+                //递归向左子树添加
                 this.left.add(node);
             } else {
                 this.left = node;
             }
         } else {//添加的结点的值大于等于当前结点的值
             if (this.right != null) {
-                //递归的向右子树添加
+                //递归向右子树添加
                 this.right.add(node);
             } else {
                 this.right = node;
