@@ -18,14 +18,19 @@ public class GraphTest {
             graph.insertVertex(s);
         }
         //添加边
-        graph.insertEdge(0, 0, 1);//A-B
+        graph.insertEdge(0, 1, 1);//A-B
         graph.insertEdge(0, 2, 1);//A-C
         graph.insertEdge(1, 2, 1);//B-C
         graph.insertEdge(1, 3, 1);//B-D
         graph.insertEdge(1, 4, 1);//B-E
+
         //展示邻接矩阵
+        System.out.println("\n展示邻接矩阵：");
         graph.showGraph();
 
+        System.out.println("\n深度优先遍历：");
+        //深度优先遍历
+        graph.dfs();
 
     }
 }
@@ -54,14 +59,14 @@ class Graph {
     /**
      * 添加边
      *
-     * @param v1     第一个顶点的下标，即第几个顶点  "A"-"B" ："A"->0 "B"->1
-     * @param v2     第二个顶点的下标，同上
+     * @param index1 第一个顶点的下标，即第几个顶点  "A"-"B" ："A"->0 "B"->1
+     * @param index2 第二个顶点的下标，同上
      * @param weight 权：1表示可以连接，0表示不可以连接
      */
-    public void insertEdge(int v1, int v2, int weight) {
+    public void insertEdge(int index1, int index2, int weight) {
         //无向图，两个方向都可以连接
-        edges[v1][v2] = weight;
-        edges[v2][v1] = weight;
+        edges[index1][index2] = weight;
+        edges[index2][index1] = weight;
     }
 
     /**
@@ -70,6 +75,78 @@ class Graph {
     public void showGraph() {
         for (int[] arr : edges) {
             System.out.println(Arrays.toString(arr));
+        }
+    }
+
+    //////////////////////////////////////////////////////
+    //
+    //              深度优先遍历(DFS)
+    //
+    /////////////////////////////////////////////////////
+
+
+    //定义给数组boolean[], 记录某个结点是否被访问
+    private boolean[] isVisited;
+
+    /**
+     * 获取以下标为index的节点开始的第一个相邻节点
+     *
+     * @param index
+     * @return
+     */
+    public int getFirstNeighbor(int index) {
+        for (int i = 0; i < vertexList.size(); i++) {
+            if (edges[index][i] > 0) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * 从下标为index的节点开始，index1作为第一个相邻节点
+     * 那么此方法用于获取index除index1之外的另一个相邻节点
+     *
+     * @param index
+     * @param index1
+     * @return
+     */
+    public int getSecondNeighbor(int index, int index1) {
+        for (int i = index1 + 1; i < vertexList.size(); i++) {
+            if (edges[index][i] > 0) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+
+    /**
+     * 深度优先遍历
+     */
+    public void dfs() {
+        isVisited = new boolean[vertexList.size()];
+        //遍历所有的结点，进行dfs
+        for (int i = 0; i < vertexList.size(); i++) {
+            if (!isVisited[i]) {
+                dfs(isVisited, i);
+            }
+        }
+    }
+
+    private void dfs(boolean[] isVisited, int index) {
+        //输出当前节点
+        System.out.print(vertexList.get(index) + "->");
+        //将当前节点设置为已经访问
+        isVisited[index] = true;
+        //获取当前节点的第一个相邻节点
+        int neighbor = getFirstNeighbor(index);
+        while (neighbor != -1) {//如果相邻节点neighbor存在
+            if (!isVisited[neighbor]) {//如果相邻节点neighbor没有被访问过，则递归
+                dfs(isVisited, neighbor);
+            }
+            //neighbor访问过，则获取index的另一个相邻节点
+            neighbor = getSecondNeighbor(index, neighbor);
         }
     }
 }
