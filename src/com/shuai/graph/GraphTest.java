@@ -89,7 +89,7 @@ class Graph {
     private boolean[] isVisited;
 
     /**
-     * 获取以下标为index的节点开始的第一个相邻节点
+     * 获取以下标为index的节点开始的第一个邻接节点
      *
      * @param index
      * @return
@@ -104,15 +104,15 @@ class Graph {
     }
 
     /**
-     * 从下标为index的节点开始，index1作为第一个相邻节点
-     * 那么此方法用于获取index除index1之外的另一个相邻节点
+     * 下标为index的节点的 某个邻接节点的下标 为neighborIndex
+     * 那么此方法用于获取index节点继neighborIndex邻接节点之后的的下一个邻接节点
      *
      * @param index
-     * @param index1
+     * @param neighborIndex
      * @return
      */
-    public int getSecondNeighbor(int index, int index1) {
-        for (int i = index1 + 1; i < vertexList.size(); i++) {
+    public int getNextNeighbor(int index, int neighborIndex) {
+        for (int i = neighborIndex + 1; i < vertexList.size(); i++) {
             if (edges[index][i] > 0) {
                 return i;
             }
@@ -139,14 +139,14 @@ class Graph {
         System.out.print(vertexList.get(index) + "->");
         //将当前节点设置为已经访问
         isVisited[index] = true;
-        //获取当前节点的第一个相邻节点
+        //获取当前节点的第一个邻接节点
         int neighbor = getFirstNeighbor(index);
-        while (neighbor != -1) {//如果相邻节点neighbor存在
-            if (!isVisited[neighbor]) {//如果相邻节点neighbor没有被访问过，则递归
+        while (neighbor != -1) {//如果邻接节点neighbor存在
+            if (!isVisited[neighbor]) {//如果邻接节点neighbor没有被访问过，则递归
                 dfs(isVisited, neighbor);
             }
-            //neighbor访问过，则获取index的另一个相邻节点
-            neighbor = getSecondNeighbor(index, neighbor);
+            //neighbor访问过，则获取index的下一个邻接节点
+            neighbor = getNextNeighbor(index, neighbor);
         }
     }
 }
