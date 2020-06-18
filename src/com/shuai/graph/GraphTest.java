@@ -2,6 +2,7 @@ package com.shuai.graph;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 
 /**
  * 图
@@ -31,6 +32,10 @@ public class GraphTest {
         System.out.println("\n深度优先遍历：");
         //深度优先遍历
         graph.dfs();
+
+        System.out.println("\n广度优先遍历：");
+        //深度优先遍历
+        graph.bfs();
 
     }
 }
@@ -149,4 +154,54 @@ class Graph {
             neighbor = getNextNeighbor(index, neighbor);
         }
     }
+
+    //////////////////////////////////////////////////////
+    //
+    //              广度优先遍历(BFS)
+    //
+    /////////////////////////////////////////////////////
+
+    /**
+     * 广度优先遍历
+     */
+    public void bfs() {
+        isVisited = new boolean[vertexList.size()];
+        //遍历所有的结点，进行bfs
+        for (int i = 0; i < vertexList.size(); i++) {
+            if (!isVisited[i]) {
+                bfs(isVisited, i);
+            }
+        }
+    }
+
+    private void bfs(boolean[] isVisited, int index) {
+        //输出当前节点
+        System.out.print(vertexList.get(index) + "->");
+        //将当前节点设置为已经访问
+        isVisited[index] = true;
+        //队列，记录结点访问的顺序
+        LinkedList<Integer> queue = new LinkedList();
+        //将结点加入队列
+        queue.addLast(index);
+
+        while (!queue.isEmpty()) {//队列非空
+            //取出队列的头部结点下标i
+            int i = queue.removeFirst();
+            //得到头部结点i的第一个邻接结点的下标 neighbor
+            int neighbor = getFirstNeighbor(i);
+            while (neighbor != -1) {//如果邻接节点neighbor存在
+                if (!isVisited[neighbor]) {//如果邻接节点neighbor没有被访问过
+                    //输出neighbor节点
+                    System.out.print(vertexList.get(neighbor) + "->");
+                    //将neighbor节点设置为已经访问
+                    isVisited[neighbor] = true;
+                    //将neighbor节点加入队列
+                    queue.addLast(neighbor);
+                }
+                //neighbor访问过，则获取节点i的下一个邻接节点
+                neighbor = getNextNeighbor(i, neighbor);
+            }
+        }
+    }
+
 }
