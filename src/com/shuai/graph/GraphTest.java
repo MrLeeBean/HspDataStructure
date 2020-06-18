@@ -12,6 +12,7 @@ public class GraphTest {
 
         //顶点
         String[] vertexArr = {"A", "B", "C", "D", "E"};
+        //String[] vertexArr = {"1", "2", "3", "4", "5", "6", "7", "8"};
         //创建图对象
         Graph graph = new Graph(vertexArr.length);
         //添加顶点
@@ -24,6 +25,18 @@ public class GraphTest {
         graph.insertEdge(1, 2, 1);//B-C
         graph.insertEdge(1, 3, 1);//B-D
         graph.insertEdge(1, 4, 1);//B-E
+
+        /*
+        graph.insertEdge(0, 1, 1);
+        graph.insertEdge(0, 2, 1);
+        graph.insertEdge(1, 3, 1);
+        graph.insertEdge(1, 4, 1);
+        graph.insertEdge(3, 7, 1);
+        graph.insertEdge(4, 7, 1);
+        graph.insertEdge(2, 5, 1);
+        graph.insertEdge(2, 6, 1);
+        graph.insertEdge(5, 6, 1);
+        */
 
         //展示邻接矩阵
         System.out.println("\n展示邻接矩阵：");
