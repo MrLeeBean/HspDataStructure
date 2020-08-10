@@ -15,21 +15,23 @@ public class ViolenceMatchTest {
      * 暴力匹配算法
      * 判断 字符串source 中是否含有 字符串target
      *
-     * @param source
-     * @param target
+     * @param sStr
+     * @param pStr
      * @return 如果存在，就返回第一次出现的位置, 如果没有，则返回-1
      */
-    public static int match(String source, String target) {
+    public static int match(String sStr, String pStr) {
 
-        char[] sourceChars = source.toCharArray();
-        char[] targetChars = target.toCharArray();
-        int sourceLen = sourceChars.length;
-        int targetLen = targetChars.length;
+        char[] s = sStr.toCharArray();
+        char[] p = pStr.toCharArray();
 
-        int i = 0; // i索引指向source
-        int j = 0; // j索引指向target
-        while (i < sourceLen && j < targetLen) {
-            if (sourceChars[i] == targetChars[j]) {//匹配成功
+        int sLen = s.length;
+        int pLen = p.length;
+
+        int i = 0; // i索引指向sStr
+        int j = 0; // j索引指向pStr
+
+        while (i < sLen && j < pLen) {
+            if (s[i] == p[j]) {//匹配成功
                 i++;
                 j++;
             } else {//匹配失败
@@ -37,7 +39,7 @@ public class ViolenceMatchTest {
                 j = 0;
             }
         }
-        if (j == targetLen) {//已经完成匹配
+        if (j == pLen) {//已经完成匹配
             return i - j;
         } else {
             return -1;
