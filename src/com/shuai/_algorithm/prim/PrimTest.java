@@ -3,7 +3,7 @@ package com.shuai._algorithm.prim;
 import java.util.Arrays;
 
 /**
- * 普利姆算法
+ * 普里姆算法
  */
 public class PrimTest {
 
@@ -56,7 +56,7 @@ class Graph {
     }
 
     /**
-     * 普利姆算法，生成最小生成树
+     * 普里姆算法，生成最小生成树
      *
      * @param v 从哪个顶点开始 v取值范围：[0,data.length)
      */
