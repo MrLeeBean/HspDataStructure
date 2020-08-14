@@ -1,7 +1,5 @@
 package com.shuai._algorithm.prim;
 
-import java.util.Arrays;
-
 /**
  * 普里姆算法
  */
@@ -11,16 +9,17 @@ public class PrimTest {
 
         char[] data = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G'};
 
-        int[][] weight = new int[][]{
+        int[][] matrix = new int[][]{
                 {10000, 5, 7, 10000, 10000, 10000, 2},
                 {5, 10000, 10000, 9, 10000, 10000, 3},
                 {7, 10000, 10000, 10000, 8, 10000, 10000},
                 {10000, 9, 10000, 10000, 10000, 4, 10000},
                 {10000, 10000, 8, 10000, 10000, 5, 4},
                 {10000, 10000, 10000, 4, 5, 10000, 6},
-                {2, 3, 10000, 10000, 4, 6, 10000}};
+                {2, 3, 10000, 10000, 4, 6, 10000}
+        };
 
-        Graph graph = new Graph(data, weight);
+        Graph graph = new Graph(data, matrix);
         graph.show();
         graph.prim(0);
 
@@ -32,27 +31,30 @@ public class PrimTest {
 class Graph {
 
     public char[] data;//节点（顶点）数据
-    public int[][] weight;//存放边，也就是邻接矩阵
+    public int[][] matrix;//存放边，也就是邻接矩阵
 
-    public Graph(char[] data, int[][] weight) {
+    public Graph(char[] data, int[][] matrix) {
         if (data != null && data.length > 0) {
             this.data = data;
-            this.weight = new int[data.length][data.length];
-            if (weight != null && data.length == weight.length && data.length == weight[0].length) {
-                this.weight = weight;
+            this.matrix = new int[data.length][data.length];
+            if (matrix != null && data.length == matrix.length && data.length == matrix[0].length) {
+                this.matrix = matrix;
             }
         }
     }
 
     //展示图的邻接矩阵
     public void show() {
-        System.out.println();
-        if (weight != null) {
-            for (int i = 0; i < weight.length; i++) {
-                System.out.println(Arrays.toString(weight[i]));
+        System.out.println("--------------------------------------------------");
+        if (matrix != null) {
+            for (int i = 0; i < matrix.length; i++) {
+                for (int j = 0; j < matrix[0].length; j++) {
+                    System.out.printf("%7d", matrix[i][j]);
+                }
+                System.out.println();
             }
         }
-        System.out.println();
+        System.out.println("--------------------------------------------------");
     }
 
     /**
@@ -79,9 +81,9 @@ class Graph {
             //i结点表示被访问过的结点,j结点表示还没有访问过的结点
             for (int i = 0; i < data.length; i++) {
                 for (int j = 0; j < data.length; j++) {
-                    if (isVisited[i] == 1 && isVisited[j] == 0 && weight[i][j] < minW) {
+                    if (isVisited[i] == 1 && isVisited[j] == 0 && matrix[i][j] < minW) {
                         //替换minW
-                        minW = weight[i][j];
+                        minW = matrix[i][j];
                         h1 = i;
                         h2 = j;
                     }
@@ -89,7 +91,7 @@ class Graph {
 
             }
             //找到一条边是最小
-            System.out.println("边<" + data[h1] + "," + data[h2] + ">" + ",权值为" + weight[h1][h2]);
+            System.out.println("边<" + data[h1] + "," + data[h2] + ">" + ",权值为" + matrix[h1][h2]);
             //将当前这个结点标记为已经访问
             isVisited[h2] = 1;
         }
