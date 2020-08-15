@@ -7,17 +7,20 @@ public class PrimTest {
 
     public static void main(String[] args) {
 
+        //顶点
         char[] data = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G'};
 
-        //注意：这里10000是一个大数，表示不连通
+        //注意：这里INF是一个大数，表示不连通
+        int INF = Integer.MAX_VALUE;
+
         int[][] matrix = new int[][]{
-                {10000, 5, 7, 10000, 10000, 10000, 2},
-                {5, 10000, 10000, 9, 10000, 10000, 3},
-                {7, 10000, 10000, 10000, 8, 10000, 10000},
-                {10000, 9, 10000, 10000, 10000, 4, 10000},
-                {10000, 10000, 8, 10000, 10000, 5, 4},
-                {10000, 10000, 10000, 4, 5, 10000, 6},
-                {2, 3, 10000, 10000, 4, 6, 10000}
+                {INF, 5, 7, INF, INF, INF, 2},
+                {5, INF, INF, 9, INF, INF, 3},
+                {7, INF, INF, INF, 8, INF, INF},
+                {INF, 9, INF, INF, INF, 4, INF},
+                {INF, INF, 8, INF, INF, 5, 4},
+                {INF, INF, INF, 4, 5, INF, 6},
+                {2, 3, INF, INF, 4, 6, INF}
         };
 
         Graph graph = new Graph(data, matrix);
@@ -34,6 +37,8 @@ class Graph {
     public char[] data;//节点（顶点）数据
     public int[][] matrix;//存放边，也就是邻接矩阵
 
+    int INF = Integer.MAX_VALUE;
+
     public Graph(char[] data, int[][] matrix) {
         if (data != null && data.length > 0) {
             this.data = data;
@@ -47,14 +52,12 @@ class Graph {
     //展示图的邻接矩阵
     public void show() {
         if (matrix != null) {
-            System.out.println();
             for (int i = 0; i < data.length; i++) {
                 for (int j = 0; j < data.length; j++) {
-                    System.out.printf("%7d", matrix[i][j]);
+                    System.out.printf("%s\t\t", matrix[i][j] == INF ? "INF" : matrix[i][j]);
                 }
                 System.out.println();
             }
-            System.out.println();
         }
     }
 
@@ -76,7 +79,7 @@ class Graph {
             //h1 和 h2 记录两个顶点的下标
             int h1 = -1, h2 = -1;
             //记录最小的权，初始成一个大数，后面在遍历过程中，会被替换
-            int minW = 10000;
+            int minW = INF;
 
             //这两个双层for循环，是确定每一次生成的子图 ，和哪个结点的距离最近
             //i结点表示被访问过的结点,j结点表示还没有访问过的结点

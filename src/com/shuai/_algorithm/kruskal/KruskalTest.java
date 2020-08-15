@@ -8,6 +8,7 @@ import java.util.*;
 public class KruskalTest {
     public static void main(String[] args) {
 
+        //顶点
         char[] data = {'A', 'B', 'C', 'D', 'E', 'F', 'G'};
         //注意：这里INF是一个大数，表示不连通
         int INF = Integer.MAX_VALUE;
@@ -58,7 +59,7 @@ class Graph {
         if (matrix != null) {
             for (int i = 0; i < data.length; i++) {
                 for (int j = 0; j < data.length; j++) {
-                    System.out.printf("%12d", matrix[i][j]);
+                    System.out.printf("%s\t\t", matrix[i][j] == INF ? "INF" : matrix[i][j]);
                 }
                 System.out.println();
             }
@@ -96,7 +97,7 @@ class Graph {
      * @param c 顶点的值，比如'A','B'
      * @return 返回c顶点对应的下标，如果找不到，返回-1
      */
-    public int getDataIndex(char c) {
+    public int getVertexIndex(char c) {
         for (int i = 0; i < data.length; i++) {
             if (c == data[i]) {
                 return i;
@@ -112,7 +113,7 @@ class Graph {
      * @param i    : 表示传入的顶点对应的下标
      * @return 返回的就是 下标为i的这个顶点对应的终点的下标
      */
-    public int getEndIndex(int[] ends, int i) {
+    public int getEndVertexIndex(int[] ends, int i) {
         while (ends[i] != 0) {
             i = ends[i];
         }
@@ -137,14 +138,14 @@ class Graph {
         //遍历edges 数组，将边添加到最小生成树中时，判断是准备加入的边否形成了回路，如果没有，就加入resultEdge, 否则不能加入
         for (int i = 0; i < edges.size(); i++) {
             //获取到第i条边的第一个顶点(首)
-            int i1 = getDataIndex(edges.get(i).start);
+            int i1 = getVertexIndex(edges.get(i).start);
             //获取到第i条边的第2个顶点(尾)
-            int i2 = getDataIndex(edges.get(i).end);
+            int i2 = getVertexIndex(edges.get(i).end);
 
             //获取i1这个顶点在已有最小生成树中的终点
-            int e1 = getEndIndex(ends, i1);
+            int e1 = getEndVertexIndex(ends, i1);
             //获取i2这个顶点在已有最小生成树中的终点
-            int e2 = getEndIndex(ends, i2);
+            int e2 = getEndVertexIndex(ends, i2);
             //是否构成回路
             if (e1 != e2) {//没有构成回路
                 // 设置 e1 在"已有最小生成树"中的终点
@@ -180,6 +181,6 @@ class Edge {
 
     @Override
     public String toString() {
-        return "Edge<" + start + "," + end + ">" + "=" + weight;
+        return "<" + start + "," + end + ">" + "=" + weight;
     }
 }
