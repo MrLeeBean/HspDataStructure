@@ -40,24 +40,17 @@ class Graph {
     int INF = Integer.MAX_VALUE;
 
     public Graph(char[] data, int[][] matrix) {
-        if (data != null && data.length > 0) {
-            this.data = data;
-            this.matrix = new int[data.length][data.length];
-            if (matrix != null && data.length == matrix.length && data.length == matrix[0].length) {
-                this.matrix = matrix;
-            }
-        }
+        this.data = data;
+        this.matrix = matrix;
     }
 
     //展示图的邻接矩阵
     public void show() {
-        if (matrix != null) {
-            for (int i = 0; i < data.length; i++) {
-                for (int j = 0; j < data.length; j++) {
-                    System.out.printf("%s\t\t", matrix[i][j] == INF ? "INF" : matrix[i][j]);
-                }
-                System.out.println();
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data.length; j++) {
+                System.out.printf("%s\t\t", matrix[i][j] == INF ? "INF" : matrix[i][j]);
             }
+            System.out.println();
         }
     }
 
