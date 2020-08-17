@@ -51,7 +51,11 @@ class Graph {
 
 
     public void showDjs() {
-        vh.show();
+        for (int i = 0; i < data.length; i++) {
+
+            System.out.println("到" + data[i] + "距离为" + vh.distanceToVertex[i] + ",前驱节点为" + vh.previousVertex[i]);
+
+        }
     }
 
     //顶点帮助类
@@ -117,7 +121,7 @@ class Graph {
 class VertexHelper {
     // 记录各个顶点（按照下标记录）是否访问过，会动态更新
     public boolean[] visitedVertex;
-    // 记录各个顶点（按照下标记录）对应的前一个顶点下标, 会动态更新
+    // 记录各个顶点（按照下标记录）对应的前一个顶点（前驱）下标, 会动态更新
     public int[] previousVertex;
     // 记录出发顶点到其他所有顶点（按照下标记录）的距离。会动态更新，求的最短距离就会存放到此
     public int[] distanceToVertex;
@@ -141,12 +145,6 @@ class VertexHelper {
         visitedVertex[startIndex] = true;
         // 设置出发顶点的访问距离为0
         distanceToVertex[startIndex] = 0;
-    }
-
-    public void show() {
-        for (int i : distanceToVertex) {
-            System.out.print(i + "  ");
-        }
     }
 }
 
