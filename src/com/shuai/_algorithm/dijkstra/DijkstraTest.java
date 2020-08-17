@@ -150,7 +150,7 @@ class VertexHelper {
 
 
 class Common {
-    //注意：这里的大数INF不能用Integer.MAX_VALUE，因为在update方法中，INF要进行加法运算，会越界。
+    //注意：这里的大数INF不能用Integer.MAX_VALUE，因为在update方法中，INF要进行加法运算，会溢出导致出现负权。所以最好设置为一个比较大且不容易相加溢出的数
     public static final int INF = Short.MAX_VALUE;
 }
 
