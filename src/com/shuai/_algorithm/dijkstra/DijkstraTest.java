@@ -1,7 +1,5 @@
 package com.shuai._algorithm.dijkstra;
 
-import java.util.Arrays;
-
 /**
  * 迪杰斯特拉算法解决最短路径问题
  */
@@ -9,148 +7,113 @@ public class DijkstraTest {
     public static void main(String[] args) {
         //顶点
         char[] vertex = {'A', 'B', 'C', 'D', 'E', 'F', 'G'};
-        //邻接矩阵
-        int[][] matrix = new int[vertex.length][vertex.length];
+
         int N = Common.INF;
-        matrix[0] = new int[]{N, 5, 7, N, N, N, 2};
-        matrix[1] = new int[]{5, N, N, 9, N, N, 3};
-        matrix[2] = new int[]{7, N, N, N, 8, N, N};
-        matrix[3] = new int[]{N, 9, N, N, N, 4, N};
-        matrix[4] = new int[]{N, N, 8, N, N, 5, 4};
-        matrix[5] = new int[]{N, N, N, 4, 5, N, 6};
-        matrix[6] = new int[]{2, 3, N, N, 4, 6, N};
+        //邻接矩阵
+        int[][] matrix = {
+                /*A*//*B*//*C*//*D*//*E*//*F*//*G*/
+                /*A*/ {0, 12, N, N, N, 16, 14},
+                /*B*/ {12, 0, 10, N, N, 7, N},
+                /*C*/ {N, 10, 0, 3, 5, 6, N},
+                /*D*/ {N, N, 3, 0, 4, N, N},
+                /*E*/ {N, N, 5, 4, 0, 2, 8},
+                /*F*/ {16, 7, 6, N, 2, 0, 9},
+                /*G*/ {14, N, N, N, 8, 9, 0}
+        };
 
         Graph graph = new Graph(vertex, matrix);
         graph.show();
-        graph.dijkstra(6);
-        graph.showDjs();
+        graph.dijkstra(3);
 
     }
-
 }
 
 //图
 class Graph {
-    public char[] data;//节点（顶点）数据
+    public char[] vertex;//节点（顶点）数据
     public int[][] matrix;//存放边，也就是邻接矩阵
 
-    public Graph(char[] data, int[][] matrix) {
-        this.data = data;
+    public Graph(char[] vertex, int[][] matrix) {
+        this.vertex = vertex;
         this.matrix = matrix;
     }
 
     //展示图的邻接矩阵
     public void show() {
-        for (int i = 0; i < data.length; i++) {
-            for (int j = 0; j < data.length; j++) {
+        for (int i = 0; i < vertex.length; i++) {
+            for (int j = 0; j < vertex.length; j++) {
                 System.out.printf("%s\t\t", matrix[i][j] == Common.INF ? "INF" : matrix[i][j]);
             }
             System.out.println();
         }
     }
 
-
-    public void showDjs() {
-        for (int i = 0; i < data.length; i++) {
-
-            System.out.println("到" + data[i] + "距离为" + vh.distanceToVertex[i] + ",前驱节点为" + vh.previousVertex[i]);
-
-        }
-    }
-
-    //顶点帮助类
-    private VertexHelper vh;
-
-    public void dijkstra(int start) {
-        vh = new VertexHelper(data.length, start);
-        //更新index下标的顶点到周围顶点的距离 和 周围顶点的前驱顶点,
-        update(start);
-        //继续更新其他顶点
-        for (int i = 1; i < data.length; i++) {
-            // 选择并返回新的访问顶点
-            int index = updateNewStart();
-            // 更新
-            update(index);
-        }
-    }
-
-
     /**
-     * 继续选择并返回新的访问顶点
-     * 比如这里的G 完后，就是 A点作为新的访问顶点(注意不是出发顶点)
+     * 迪杰斯特拉算法
      *
-     * @return
+     * @param vs 起始顶点(start vertex)。即计算"顶点vs"到其它顶点的最短路径。
      */
-    private int updateNewStart() {
-        int min = Common.INF;
-        int index = 0;
-        for (int i = 0; i < data.length; i++) {
-            if (!vh.visitedVertex[i] && vh.distanceToVertex[i] < min) {
-                min = vh.distanceToVertex[i];
-                index = i;
+    public void dijkstra(int vs) {
+        // flag[i]=true表示"顶点vs"到"顶点i"的最短路径已成功获取.
+        // true顶点位于集合S中，false顶点位于集合U中
+        boolean[] flag = new boolean[vertex.length];
+        // 前驱顶点数组。即，prev[i]的值是"顶点vs"到"顶点i"的最短路径所经历的全部顶点中，位于"顶点i"之前的那个顶点。
+        int[] prev = new int[vertex.length];
+        // 长度数组。即，dist[i]是"顶点vs"到"顶点i"的最短路径的长度。
+        int[] dist = new int[vertex.length];
+
+        for (int i = 0; i < vertex.length; i++) {
+            flag[i] = false;
+            prev[i] = 0;
+            dist[i] = matrix[vs][i];
+        }
+
+        // 对"顶点vs"自身进行初始化，集合S中最初只有vs一个顶点
+        flag[vs] = true;
+        dist[vs] = 0;
+
+        // 遍历vertex.length-1次；每次找出一个顶点的最短路径。
+        for (int i = 1; i < vertex.length; i++) {
+            // 寻找当前最小的路径；
+            // 即，在未获取最短路径的顶点中（集合U中），找到离vs最近的顶点(k)。
+            int min = Common.INF;
+            int k = 0;
+            for (int j = 0; j < vertex.length; j++) {
+                if (!flag[j] && dist[j] < min) {
+                    min = dist[j];
+                    k = j;
+                }
             }
-        }
-        vh.visitedVertex[index] = true;
-        return index;
-    }
+            // 标记"顶点k"为已经获取到最短路径 ==> 顶点k加入到S集合中
+            flag[k] = true;
 
-    /**
-     * 更新index下标的顶点到周围顶点的距离 和 周围顶点的前驱顶点
-     *
-     * @param start
-     */
-    private void update(int start) {
-        int len = 0;
-        //遍历所有顶点（i取值为：0 ~ data.length-1）
-        for (int i = 0; i < data.length; i++) {
-            // len 含义是 : 出发顶点到start的距离 + 从start顶点到i顶点的距离的和
-            len = vh.distanceToVertex[start] + matrix[start][i];
-            // 如果i顶点没有被访问过，并且 len 小于已经记录的出发顶点到j顶点的距离，就需要更新
-            if (!vh.visitedVertex[i] && len < vh.distanceToVertex[i]) {
-                //更新出发顶点到i顶点的距离
-                vh.distanceToVertex[i] = len;
-                //更新i顶点的前驱为start顶点
-                vh.previousVertex[i] = start;
+            // 修正当前最短路径和前驱顶点  ==> 修正U集合中各个顶点到起始点的距离
+            // 即，当已知"顶点k的最短路径"之后，更新 "未获取最短路径的顶点（集合U中顶点）的最短路径 和 前驱顶点"。
+            for (int j = 0; j < vertex.length; j++) {
+                // min + matrix[k][j]:k到起始点的最短路径+j到k的路径
+                int len = matrix[k][j] == Common.INF ? Common.INF : min + matrix[k][j];
+                // 如果j没有成功获取到最短路径（属于集合U），且 k到起始点的最短路径+j到k的路径 < j到起始点的最短路径
+                // 则更新j的最短路径、更新j的前驱节点
+                if (!flag[j] && len < dist[j]) {
+                    dist[j] = len;
+                    prev[j] = k;
+                }
             }
+
+        }
+        // 打印dijkstra最短路径的结果
+        System.out.printf("\nDijkstra-起始点(%c): \n", vertex[vs]);
+        for (int i = 0; i < vertex.length; i++) {
+            System.out.printf("  最短路径(%c, %c)=%d\n", vertex[vs], vertex[i], dist[i]);
         }
     }
 
-}
-
-//顶点帮助类
-class VertexHelper {
-    // 记录各个顶点（按照下标记录）是否访问过，会动态更新
-    public boolean[] visitedVertex;
-    // 记录各个顶点（按照下标记录）对应的前一个顶点（前驱）下标, 会动态更新
-    public int[] previousVertex;
-    // 记录出发顶点到其他所有顶点（按照下标记录）的距离。会动态更新，求的最短距离就会存放到此
-    public int[] distanceToVertex;
-
-    /**
-     * 构造器
-     *
-     * @param vertexLength：顶点个数
-     * @param startIndex：出发顶点对应的下标, 比如G顶点，下标就是6
-     */
-    public VertexHelper(int vertexLength, int startIndex) {
-        this.visitedVertex = new boolean[vertexLength];
-        this.previousVertex = new int[vertexLength];
-        this.distanceToVertex = new int[vertexLength];
-
-        Arrays.fill(visitedVertex, false);
-        Arrays.fill(previousVertex, 0);
-        Arrays.fill(distanceToVertex, Common.INF);
-
-        // 设置出发顶点被访问过
-        visitedVertex[startIndex] = true;
-        // 设置出发顶点的访问距离为0
-        distanceToVertex[startIndex] = 0;
-    }
 }
 
 
 class Common {
-    //注意：这里的大数INF不能用Integer.MAX_VALUE，因为在update方法中，INF要进行加法运算，会溢出导致出现负权。所以最好设置为一个比较大且不容易相加溢出的数
+    // 注意：这里的大数INF最好不要使用Integer.MAX_VALUE
+    // 因为如果INF要进行加法运算，会溢出导致出现负权。所以最好设置为一个比较大且不容易相加溢出的数
     public static final int INF = Short.MAX_VALUE;
 }
 
