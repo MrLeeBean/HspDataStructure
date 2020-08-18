@@ -55,7 +55,7 @@ class Graph {
      */
     public void dijkstra(int vs) {
         // flag[i]=true表示"顶点vs"到"顶点i"的最短路径已成功获取.
-        // true顶点位于集合S中，false顶点位于集合U中
+        // true顶点位于[集合S]中，false顶点位于[集合U]中
         boolean[] flag = new boolean[vertex.length];
         // 前驱顶点数组。即，prev[i]的值是"顶点vs"到"顶点i"的最短路径所经历的全部顶点中，位于"顶点i"之前的那个顶点。
         int[] prev = new int[vertex.length];
@@ -86,7 +86,7 @@ class Graph {
             }
             // 标记"顶点k"为已经获取到最短路径 ==> 顶点k加入到S集合中
             flag[k] = true;
-            // "顶点k"的最短路径为min
+            // 存储"顶点k"的最短路径为min
             dist[k] = min;
 
             // 修正当前最短路径和前驱顶点  ==> 修正U集合中各个顶点到起始点的距离
@@ -94,8 +94,10 @@ class Graph {
             for (int j = 0; j < vertex.length; j++) {
                 // dist[k] + matrix[k][j]:k到起始点的最短路径+j到k的路径
                 int len = matrix[k][j] == Common.INF ? Common.INF : dist[k] + matrix[k][j];
-                // 如果j没有成功获取到最短路径（属于集合U），且 k到起始点的最短路径+j到k的路径 < j到起始点的最短路径
+                // 如果j没有成功获取到最短路径（属于集合U），且 k到起始点的最短路径+j到k的路径 < j到起始点已知的最短路径
                 // 则更新j的最短路径、更新j的前驱节点
+                // 注意：集合U（flag[j] = false）中的顶点的最短路径dist[j]还未真正确认下来，所以需要不断调整。
+                // 只有进入集合S中（flag[j] = true）中的顶点，最短路径才最终确认了下来。
                 if (!flag[j] && len < dist[j]) {
                     dist[j] = len;
                     prev[j] = k;
