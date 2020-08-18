@@ -8,10 +8,10 @@ public class PrimTest {
     public static void main(String[] args) {
 
         //顶点
-        char[] data = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G'};
+        char[] vertex = {'A', 'B', 'C', 'D', 'E', 'F', 'G'};
 
         //注意：这里INF是一个大数，表示不连通
-        int INF = Integer.MAX_VALUE;
+        int INF = Common.INF;
 
         int[][] matrix = new int[][]{
                 {INF, 5, 7, INF, INF, INF, 2},
@@ -23,7 +23,7 @@ public class PrimTest {
                 {2, 3, INF, INF, 4, 6, INF}
         };
 
-        Graph graph = new Graph(data, matrix);
+        Graph graph = new Graph(vertex, matrix);
         graph.show();
         graph.prim(0);
 
@@ -34,21 +34,20 @@ public class PrimTest {
 //图
 class Graph {
 
-    public char[] data;//节点（顶点）数据
+    public char[] vertex;//节点（顶点）数据
     public int[][] matrix;//存放边，也就是邻接矩阵
 
-    int INF = Integer.MAX_VALUE;
 
-    public Graph(char[] data, int[][] matrix) {
-        this.data = data;
+    public Graph(char[] vertex, int[][] matrix) {
+        this.vertex = vertex;
         this.matrix = matrix;
     }
 
     //展示图的邻接矩阵
     public void show() {
-        for (int i = 0; i < data.length; i++) {
-            for (int j = 0; j < data.length; j++) {
-                System.out.printf("%s\t\t", matrix[i][j] == INF ? "INF" : matrix[i][j]);
+        for (int i = 0; i < vertex.length; i++) {
+            for (int j = 0; j < vertex.length; j++) {
+                System.out.printf("%s\t\t", matrix[i][j] == Common.INF ? "INF" : matrix[i][j]);
             }
             System.out.println();
         }
@@ -61,23 +60,23 @@ class Graph {
      */
     public void prim(int v) {
         //标记结点(顶点)是否被访问过
-        int[] isVisited = new int[data.length];
+        int[] isVisited = new int[vertex.length];
         //当前这个结点标记为已访问
         isVisited[v] = 1;
         //最小生成树 边数量 = 节点数量-1
-        int edgeSize = data.length - 1;
+        int edgeSize = vertex.length - 1;
         //遍历
         for (int e = 0; e < edgeSize; e++) {
 
             //h1 和 h2 记录两个顶点的下标
             int h1 = -1, h2 = -1;
             //记录最小的权，初始成一个大数，后面在遍历过程中，会被替换
-            int minW = INF;
+            int minW = Common.INF;
 
             //这两个双层for循环，是确定每一次生成的子图 ，和哪个结点的距离最近
             //i结点表示被访问过的结点,j结点表示还没有访问过的结点
-            for (int i = 0; i < data.length; i++) {
-                for (int j = 0; j < data.length; j++) {
+            for (int i = 0; i < vertex.length; i++) {
+                for (int j = 0; j < vertex.length; j++) {
                     if (isVisited[i] == 1 && isVisited[j] == 0 && matrix[i][j] < minW) {
                         //替换minW
                         minW = matrix[i][j];
@@ -88,10 +87,16 @@ class Graph {
 
             }
             //找到一条边是最小
-            System.out.println("边<" + data[h1] + "," + data[h2] + ">" + ",权值为" + matrix[h1][h2]);
+            System.out.println("边<" + vertex[h1] + "," + vertex[h2] + ">" + ",权值为" + matrix[h1][h2]);
             //将当前这个结点标记为已经访问
             isVisited[h2] = 1;
         }
     }
 
+}
+
+class Common {
+    // 注意：这里的大数INF最好不要使用Integer.MAX_VALUE
+    // 因为如果INF要进行加法运算，会溢出导致出现负权。所以最好设置为一个比较大且不容易相加溢出的数
+    public static final int INF = Short.MAX_VALUE;
 }

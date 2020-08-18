@@ -9,9 +9,9 @@ public class KruskalTest {
     public static void main(String[] args) {
 
         //顶点
-        char[] data = {'A', 'B', 'C', 'D', 'E', 'F', 'G'};
+        char[] vertex = {'A', 'B', 'C', 'D', 'E', 'F', 'G'};
         //注意：这里INF是一个大数，表示不连通
-        int INF = Integer.MAX_VALUE;
+        int INF = Common.INF;
         //克鲁斯卡尔算法的邻接矩阵
         int[][] matrix = {
                 /*A*//*B*//*C*//*D*//*E*//*F*//*G*/
@@ -23,7 +23,7 @@ public class KruskalTest {
                 /*F*/ {16, 7, 6, INF, 2, 0, 9},
                 /*G*/ {14, INF, INF, INF, 8, 9, 0}};
 
-        Graph graph = new Graph(data, matrix);
+        Graph graph = new Graph(vertex, matrix);
 
         System.out.println("\n邻接矩阵为：\n");
         graph.show();
@@ -39,21 +39,19 @@ public class KruskalTest {
 //图
 class Graph {
 
-    public char[] data;//节点（顶点）数据
+    public char[] vertex;//节点（顶点）数据
     public int[][] matrix;//存放边，也就是邻接矩阵
 
-    public int INF = Integer.MAX_VALUE;
-
-    public Graph(char[] data, int[][] matrix) {
-        this.data = data;
+    public Graph(char[] vertex, int[][] matrix) {
+        this.vertex = vertex;
         this.matrix = matrix;
     }
 
     //展示图的邻接矩阵
     public void show() {
-        for (int i = 0; i < data.length; i++) {
-            for (int j = 0; j < data.length; j++) {
-                System.out.printf("%s\t\t", matrix[i][j] == INF ? "INF" : matrix[i][j]);
+        for (int i = 0; i < vertex.length; i++) {
+            for (int j = 0; j < vertex.length; j++) {
+                System.out.printf("%s\t\t", matrix[i][j] == Common.INF ? "INF" : matrix[i][j]);
             }
             System.out.println();
         }
@@ -65,10 +63,10 @@ class Graph {
     public List<Edge> getEdgesAndSortByWeight() {
         List<Edge> list = new ArrayList<Edge>();
         //获取所有可连通的边
-        for (int i = 0; i < data.length; i++) {
-            for (int j = i + 1; j < data.length; j++) {
-                if (matrix[i][j] != INF) {
-                    list.add(new Edge(data[i], data[j], matrix[i][j]));
+        for (int i = 0; i < vertex.length; i++) {
+            for (int j = i + 1; j < vertex.length; j++) {
+                if (matrix[i][j] != Common.INF) {
+                    list.add(new Edge(vertex[i], vertex[j], matrix[i][j]));
                 }
             }
         }
@@ -91,8 +89,8 @@ class Graph {
      * @return 返回c顶点对应的下标，如果找不到，返回-1
      */
     public int getVertexIndex(char c) {
-        for (int i = 0; i < data.length; i++) {
-            if (c == data[i]) {
+        for (int i = 0; i < vertex.length; i++) {
+            if (c == vertex[i]) {
                 return i;
             }
         }
@@ -177,3 +175,10 @@ class Edge {
         return "<" + start + "," + end + ">" + "=" + weight;
     }
 }
+
+class Common {
+    // 注意：这里的大数INF最好不要使用Integer.MAX_VALUE
+    // 因为如果INF要进行加法运算，会溢出导致出现负权。所以最好设置为一个比较大且不容易相加溢出的数
+    public static final int INF = Short.MAX_VALUE;
+}
+
