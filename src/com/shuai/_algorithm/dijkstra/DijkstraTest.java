@@ -86,12 +86,14 @@ class Graph {
             }
             // 标记"顶点k"为已经获取到最短路径 ==> 顶点k加入到S集合中
             flag[k] = true;
+            // "顶点k"的最短路径为min
+            dist[k] = min;
 
             // 修正当前最短路径和前驱顶点  ==> 修正U集合中各个顶点到起始点的距离
             // 即，当已知"顶点k的最短路径"之后，更新 "未获取最短路径的顶点（集合U中顶点）的最短路径 和 前驱顶点"。
             for (int j = 0; j < vertex.length; j++) {
-                // min + matrix[k][j]:k到起始点的最短路径+j到k的路径
-                int len = matrix[k][j] == Common.INF ? Common.INF : min + matrix[k][j];
+                // dist[k] + matrix[k][j]:k到起始点的最短路径+j到k的路径
+                int len = matrix[k][j] == Common.INF ? Common.INF : dist[k] + matrix[k][j];
                 // 如果j没有成功获取到最短路径（属于集合U），且 k到起始点的最短路径+j到k的路径 < j到起始点的最短路径
                 // 则更新j的最短路径、更新j的前驱节点
                 if (!flag[j] && len < dist[j]) {
