@@ -24,6 +24,12 @@ public class FloydTest {
         };
 
         Graph graph = new Graph(vertex, matrix);
+
+        System.out.println("\n【初始状态下】：");
+        graph.showDis();
+        graph.showPre();
+
+        System.out.println("\n【经过弗洛伊德算法后】：");
         graph.floyd();
         graph.showDis();
         graph.showPre();
@@ -53,7 +59,13 @@ class Graph {
     //展示距离表
     public void showDis() {
         System.out.println("\n距离表：");
+        StringBuilder line = new StringBuilder();
         for (int i = 0; i < vertex.length; i++) {
+            line.append("\t\t").append("[").append(vertex[i]).append("]");
+        }
+        System.out.println(line);
+        for (int i = 0; i < vertex.length; i++) {
+            System.out.print("[" + vertex[i] + "]" + "\t\t");
             for (int j = 0; j < vertex.length; j++) {
                 System.out.printf("%s\t\t", dis[i][j] == Common.INF ? "INF" : dis[i][j]);
             }
@@ -64,9 +76,15 @@ class Graph {
     //展示前驱关系表
     public void showPre() {
         System.out.println("\n前驱关系表：");
+        StringBuilder line = new StringBuilder();
         for (int i = 0; i < vertex.length; i++) {
+            line.append("\t\t").append("[").append(vertex[i]).append("]");
+        }
+        System.out.println(line);
+        for (int i = 0; i < vertex.length; i++) {
+            System.out.print("[" + vertex[i] + "]" + "\t\t");
             for (int j = 0; j < vertex.length; j++) {
-                System.out.printf("%s\t\t", pre[i][j] == Common.INF ? "INF" : pre[i][j]);
+                System.out.printf("%s\t\t", vertex[pre[i][j]]);
             }
             System.out.println();
         }
