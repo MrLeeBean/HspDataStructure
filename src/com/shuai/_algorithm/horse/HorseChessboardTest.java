@@ -38,6 +38,7 @@ public class HorseChessboardTest {
      * 马踏棋盘算法
      *
      * @param chess 棋盘
+     * @param isVisited 标记棋盘的各个位置是否被访问过
      * @param x     当前点的x坐标
      * @param y     当前点的y坐标
      * @param step  是第几步 ,初始位置就是第1步
