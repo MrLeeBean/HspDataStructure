@@ -9,18 +9,17 @@ import java.util.List;
  */
 public class HorseChessboardTest {
 
-    // 棋盘为：CHESS_X * CHESS_Y
-    // 则棋盘最大坐标为：CHESS_X-1 * CHESS_Y-1
-    private static int CHESS_X = 8;
-    private static int CHESS_Y = 8;
-    //棋盘
-    private static int[][] chess = new int[CHESS_X][CHESS_Y];
-    //标记棋盘的各个位置是否被访问过
-    private static boolean[][] isVisited = new boolean[CHESS_X][CHESS_Y];
+    // 棋盘为：CHESS_X * CHESS_Y；则棋盘最大坐标为：CHESS_X-1 * CHESS_Y-1
+    private static int CHESS_X = 8, CHESS_Y = 8;
     //标记是否棋盘的所有位置都被访问，true表示成功
     private static boolean isFinished = false;
 
     public static void main(String[] args) {
+
+        //棋盘
+        int[][] chess = new int[CHESS_X][CHESS_Y];
+        //标记棋盘的各个位置是否被访问过
+        boolean[][] isVisited = new boolean[CHESS_X][CHESS_Y];
 
         //马踏棋盘算法
         horseTravel(chess, isVisited, 0, 0, 1);
@@ -37,11 +36,11 @@ public class HorseChessboardTest {
     /**
      * 马踏棋盘算法
      *
-     * @param chess 棋盘
+     * @param chess     棋盘
      * @param isVisited 标记棋盘的各个位置是否被访问过
-     * @param x     当前点的x坐标
-     * @param y     当前点的y坐标
-     * @param step  是第几步 ,初始位置就是第1步
+     * @param x         当前点的x坐标
+     * @param y         当前点的y坐标
+     * @param step      是第几步 ,初始位置就是第1步
      */
     public static void horseTravel(int[][] chess, boolean[][] isVisited, int x, int y, int step) {
         //设置当前位置为 第step步
